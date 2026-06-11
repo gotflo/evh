@@ -1,0 +1,56 @@
+﻿---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+// Curated gallery items, clé : { full, thumb, alt, span }
+const items = [
+  { full: '/img/Gallery/pst-9-2048x1365.jpg', thumb: '/img/Gallery/pst-9-1024x683.jpg', alt: 'Temps de louange, mains levées', span: 'wide tall' },
+  { full: '/img/Gallery/385744452_806068568188038_1097952417221916540_n-1536x1023.jpg', thumb: '/img/Gallery/385744452_806068568188038_1097952417221916540_n-1024x682.jpg', alt: 'Prédication, partager l\'amour' },
+  { full: '/img/Gallery/pst-16-2048x1365.jpg', thumb: '/img/Gallery/pst-16-1024x683.jpg', alt: 'Adoration intense' },
+  { full: '/img/Gallery/IMG_0889_3809.jpg', thumb: '/img/Gallery/IMG_0889_3809-768x512.bk.jpg', alt: 'Moment d\'assemblée', span: 'tall' },
+  { full: '/img/Gallery/IMG_0331_2278-2-scaled.bk.jpg', thumb: '/img/Gallery/IMG_0331_2278-2-1024x783.bk.jpg', alt: 'Service du dimanche', span: 'wide' },
+  { full: '/img/Gallery/IMG_0338-768x512.jpg.webp', thumb: '/img/Gallery/IMG_0338-768x512.jpg.webp', alt: 'Rassemblement' },
+  { full: '/img/Gallery/A1.png.webp', thumb: '/img/Gallery/A1-1024x576.png.webp', alt: 'Événement A1' },
+  { full: '/img/Gallery/B5.png', thumb: '/img/Gallery/B5-1024x576.png', alt: 'Événement B5' },
+  { full: '/img/Gallery/B4.png', thumb: '/img/Gallery/B4-1024x576.png', alt: 'Événement B4', span: 'wide' },
+  { full: '/img/Gallery/C2.png', thumb: '/img/Gallery/C2-768x432.png.webp', alt: 'Événement C2' },
+  { full: '/img/Gallery/D1.png', thumb: '/img/Gallery/D1-1024x576.bk.png', alt: 'Événement D1', span: 'tall' },
+  { full: '/img/Gallery/D2.png', thumb: '/img/Gallery/D2-1024x576.bk.png', alt: 'Événement D2' },
+  { full: '/img/Gallery/D5-768x432.png.webp', thumb: '/img/Gallery/D5-768x432.png.webp', alt: 'Événement D5' },
+  { full: '/img/Gallery/B6-768x432.png.webp', thumb: '/img/Gallery/B6-768x432.png.webp', alt: 'Événement B6' },
+  { full: '/img/Gallery/C1-768x432.png.webp', thumb: '/img/Gallery/C1-768x432.png.webp', alt: 'Événement C1' },
+  { full: '/img/Gallery/pst-9-scaled.jpg', thumb: '/img/Gallery/pst-9-768x512.jpg', alt: 'Moment de communion' },
+];
+---
+
+<BaseLayout
+  title="Galerie, Vases d'Honneur Chicoutimi"
+  description="Galerie photo de l'Église Vases d'Honneur Chicoutimi, cultes, louange, événements, vie d'assemblée."
+  active="galerie"
+>
+
+  <section class="page-hero">
+    <p class="breadcrumb"><a href="/index.html">Accueil</a> <span>›</span> Galerie</p>
+    <h1>La vie de <span class="accent">l'assemblée</span></h1>
+    <p class="page-hero-lead">
+      Au fil des cultes, des soirées de prière et des moments fraternels,
+      des instants saisis dans la maison.
+    </p>
+  </section>
+
+  <section class="section">
+    <div class="section-inner">
+      <div class="gallery-grid reveal">
+        {items.map((it) => (
+          <div class={`gallery-item ${it.span ?? ''}`} data-full={it.full}>
+            <img src={it.thumb} alt={it.alt} loading="lazy" />
+          </div>
+        ))}
+      </div>
+
+      <p class="reveal" style="text-align:center; margin-top: 3rem; color: var(--text-soft); font-size: 0.9rem;">
+        Clique sur une image pour l'agrandir · Échap pour fermer
+      </p>
+    </div>
+  </section>
+
+</BaseLayout>
