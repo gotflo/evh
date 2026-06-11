@@ -1,0 +1,16 @@
+{
+  "name": "evh-site",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "Église Vases d'Honneur Chicoutimi — Assemblée Plénitude d'Amour",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "astro": "^5.0.0"
+  }
+}

@@ -1,0 +1,355 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const departments = [
+  { name: 'Louange',                    desc: "Conduit l'assemblée dans les temps d'adoration durant les cultes et les évènements." },
+  { name: 'Évangélisation',             desc: "Organise les campagnes pour partager l'Évangile au-delà des murs de l'église." },
+  { name: 'Communication',              desc: "Pilote la stratégie de communication numérique de l'église et du pasteur." },
+  { name: "Amis des nouveaux membres",  desc: "Accueille et accompagne les nouveaux dans leur intégration à la vie de l'assemblée." },
+  { name: 'École du dimanche (Ecodim)', desc: "Prend soin des enfants durant les cultes à travers des activités adaptées." },
+  { name: 'Intercession',               desc: "Développe une vie de prière authentique au cœur de l'église." },
+  { name: 'Cœur d\'honneur',            desc: "Porte les programmes d'action sociale et de fraternité envers les vulnérables." },
+  { name: 'Bloom',                      desc: "Accompagne spirituellement les adolescents et les jeunes adultes." },
+  { name: 'Propreté',                   desc: "Veille à l'entretien et à la propreté de la maison." },
+  { name: 'Baptême',                    desc: "Prépare les futurs baptisés et enseigne les fondations du Royaume." },
+  { name: "Gestion des cultes",         desc: "Coordonne l'accueil et produit les programmes de culte." },
+  { name: 'Décoration',                 desc: "Veille à la beauté et à l'identité visuelle de chaque rassemblement." },
+  { name: 'Librairie',                  desc: "Met à disposition les livres et les enseignements de la maison." },
+  { name: 'Sainte Cène',                desc: "Prépare et organise la distribution de la Sainte Cène." },
+];
+---
+
+<BaseLayout
+  title="Ministères, Vases d'Honneur Chicoutimi"
+  description="Bloom, Leaman, Départements, Baptême : les ministères de l'Église Vases d'Honneur Chicoutimi."
+  active="ministeres"
+>
+
+  <section class="page-hero">
+    <p class="breadcrumb"><a href="/index.html">Accueil</a> <span>›</span> Ministères</p>
+    <h1>S'engager, grandir, <span class="accent">servir</span></h1>
+    <p class="page-hero-lead">
+      Nos ministères sont des portes ouvertes pour rencontrer Dieu, te former,
+      servir et marcher dans la destinée que Christ a préparée pour toi.
+    </p>
+  </section>
+
+  <section class="section">
+    <div class="section-inner">
+
+      <!-- ============ BLOOM ============ -->
+      <div class="ministry-detail reveal" id="bloom">
+        <div class="ministry-detail-visual">
+          <span class="ministry-detail-emoji" aria-hidden="true">🌸</span>
+          <img src="/img/Gallery/385744452_806068568188038_1097952417221916540_n-1024x682.jpg" alt="Ministère Bloom" loading="lazy" />
+        </div>
+        <div class="ministry-detail-content">
+          <span class="tag">Ministère jeunesse</span>
+          <h3>Bloom</h3>
+          <p class="lead-quote">« Avec Christ, ta vie va s'épanouir. »</p>
+          <p>
+            <strong>Bloom signifie épanouir.</strong> C'est le ministère jeunesse passionné de Jésus
+            de l'Église Vases d'Honneur. Sa mission : amener les jeunes à manifester
+            le règne de Dieu dans leur vie et à mettre leurs dons et leurs talents
+            au service du Seigneur.
+          </p>
+          <p>
+            Une génération debout, fleurissante en Christ, qui ne se laisse pas
+            définir par son époque mais qui définit son époque par sa foi.
+          </p>
+          <a href="/index.html#contact" class="btn btn-primary">
+            Rejoindre Bloom
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="ministry-divider"></div>
+
+      <!-- ============ LEAMAN ============ -->
+      <div class="ministry-detail reveal" id="leaman">
+        <div class="ministry-detail-visual">
+          <span class="ministry-detail-emoji" aria-hidden="true">👑</span>
+          <img src="/img/Gallery/pst-16-1024x683.jpg" alt="Ministère Leaman" loading="lazy" />
+        </div>
+        <div class="ministry-detail-content">
+          <span class="tag">Le ministère des femmes extraordinaires</span>
+          <h3>Leaman</h3>
+          <p class="lead-quote">« Avec Dieu, nous ferons des exploits. » <span class="verse-ref">Psaumes 60:12</span></p>
+          <p>
+            <strong>Leaman</strong> est le département dédié à toutes les femmes des
+            églises Vases d'Honneur. Sa vocation : former des femmes à des vies
+            épanouies, extraordinaires et impactantes.
+          </p>
+          <p>
+            Jeunes ou plus âgées, célibataires ou mariées, étudiantes, professionnelles,
+            femmes d'affaires, femmes au foyer ou entrepreneures, Leaman réunit toutes
+            les femmes pour prier, s'édifier mutuellement et se former, afin d'être
+            d'authentiques témoins de Christ.
+          </p>
+          <p>
+            <strong>Vocation interne</strong> selon <em>Proverbes 31</em> : former
+            des femmes de valeur. <strong>Vocation externe</strong> selon
+            <em>Matthieu 28:19</em> : aller à la rencontre de toutes celles qui
+            ne connaissent pas encore Jésus-Christ.
+          </p>
+
+          <h4 class="subhead">Ce que tu vivras à Leaman</h4>
+          <ul>
+            <li>Temps de prière et d'intercession entre sœurs</li>
+            <li>Programmes d'édification ancrés dans la Parole</li>
+            <li>Ateliers de formation sur les enjeux spécifiques aux femmes</li>
+            <li>Moments de détente et de communion fraternelle</li>
+            <li><strong>Wish Week</strong> : notre grand rassemblement annuel</li>
+          </ul>
+
+          <a href="/index.html#contact" class="btn btn-primary">
+            Rejoindre Leaman
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="ministry-divider"></div>
+
+      <!-- ============ DÉPARTEMENTS ============ -->
+      <div class="ministry-detail reveal" id="departments">
+        <div class="ministry-detail-visual">
+          <span class="ministry-detail-emoji" aria-hidden="true">🤝</span>
+          <img src="/img/Gallery/pst-9-1024x683.jpg" alt="Les départements" loading="lazy" />
+        </div>
+        <div class="ministry-detail-content">
+          <span class="tag">Servir l'assemblée</span>
+          <h3>Départements</h3>
+          <p class="lead-quote">
+            « Ainsi, mes frères bien-aimés, soyez fermes, inébranlables, travaillant
+            de mieux en mieux à l'œuvre du Seigneur, sachant que votre travail ne sera
+            pas vain dans le Seigneur. »
+            <span class="verse-ref">1 Corinthiens 15:58</span>
+          </p>
+          <p>
+            Servir Dieu, ce n'est pas une affaire d'ancienneté : c'est une affaire de
+            cœur. Si tu désires t'engager au service du Seigneur dans la maison,
+            les départements sont la porte d'entrée.
+          </p>
+          <p>
+            Choisis le département qui parle à ton cœur, écris-nous, et nous
+            t'orienterons vers le responsable concerné.
+          </p>
+        </div>
+      </div>
+
+      <!-- Grille des 14 départements -->
+      <div class="department-grid reveal" style="margin-top: 3rem;">
+        {departments.map((d, i) => (
+          <article class="department-card" data-delay={(i % 4) * 100}>
+            <h4>{d.name}</h4>
+            <p>{d.desc}</p>
+          </article>
+        ))}
+      </div>
+
+      <div style="text-align:center; margin-top: 2.5rem;" class="reveal">
+        <a href="mailto:contact@evhca.com?subject=Rejoindre%20un%20département" class="btn btn-primary">
+          Rejoindre un département
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+      </div>
+
+      <div class="ministry-divider" style="margin-top: 4rem;"></div>
+
+      <!-- ============ BAPTÊME ============ -->
+      <div class="ministry-detail reveal" id="bapteme">
+        <div class="ministry-detail-visual">
+          <span class="ministry-detail-emoji" aria-hidden="true">💧</span>
+          <img src="/img/Gallery/IMG_0889_3809-768x512.bk.jpg" alt="Baptême par immersion" loading="lazy" />
+        </div>
+        <div class="ministry-detail-content">
+          <span class="tag">L'étape suivante après Jésus</span>
+          <h3>Baptême</h3>
+          <p class="lead-quote">
+            « Allez, faites de toutes les nations des disciples, les baptisant
+            au nom du Père, du Fils et du Saint-Esprit. »
+            <span class="verse-ref">Matthieu 28:19</span>
+          </p>
+          <p>
+            Après avoir accepté Jésus comme Seigneur et Sauveur, l'étape suivante
+            est le <strong>baptême par immersion</strong>. C'est une démarche
+            indispensable pour chaque chrétien.
+          </p>
+          <p>
+            Le baptême par immersion n'est pas une condition pour obtenir le salut :
+            seule la foi en Christ suffit pour être sauvé. Il est plutôt le
+            <strong>signe extérieur de la transformation intérieure</strong> qui s'est
+            opérée en toi, et un acte d'obéissance qui affermit ta foi et celle des autres.
+          </p>
+          <p>
+            C'est aussi une <strong>confession publique d'appartenance à Dieu</strong>,
+            devant Dieu, devant les hommes, devant les anges, et devant les démons.
+          </p>
+
+          <h4 class="subhead">Conditions</h4>
+          <ul>
+            <li>Avoir accepté Jésus comme Seigneur et Sauveur de ta vie</li>
+            <li>Tu peux te faire baptiser à tout moment après cette décision</li>
+          </ul>
+
+          <a href="mailto:contact@evhca.com?subject=Je%20veux%20être%20baptisé" class="btn btn-primary">
+            Je veux être baptisé
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+</BaseLayout>
+
+<style>
+  .ministry-detail {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: center;
+    padding: 4rem 0;
+  }
+  .ministry-detail:nth-child(even) { direction: rtl; }
+  .ministry-detail:nth-child(even) > * { direction: ltr; }
+  @media (max-width: 820px) {
+    .ministry-detail { grid-template-columns: 1fr; gap: 2rem; padding: 2.5rem 0; }
+    .ministry-detail:nth-child(even) { direction: ltr; }
+  }
+  .ministry-detail-visual {
+    aspect-ratio: 4/3;
+    border-radius: var(--radius);
+    overflow: hidden;
+    border: 1px solid var(--border-subtle);
+    position: relative;
+    background: linear-gradient(135deg, var(--bg-mid), var(--bg-end));
+  }
+  .ministry-detail-visual img {
+    width: 100%; height: 100%; object-fit: cover;
+    transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .ministry-detail-visual:hover img { transform: scale(1.05); }
+  .ministry-detail-visual::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg, transparent 50%, rgba(6,48,44,0.5) 100%);
+  }
+  .ministry-detail-emoji {
+    position: absolute;
+    top: 1.25rem; left: 1.25rem;
+    width: 60px; height: 60px;
+    display: inline-flex;
+    align-items: center; justify-content: center;
+    font-size: 1.8rem;
+    background: rgba(6,48,44,0.7);
+    backdrop-filter: blur(8px);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    z-index: 2;
+  }
+  .ministry-detail-content .tag {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.75rem;
+  }
+  .ministry-detail-content h3 {
+    font-family: var(--font-serif);
+    font-size: clamp(2rem, 4vw, 2.75rem);
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: var(--text);
+  }
+  .ministry-detail-content .lead-quote {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 1.15rem;
+    line-height: 1.55;
+    color: var(--text);
+    border-left: 2px solid var(--accent);
+    padding-left: 1rem;
+    margin: 0.5rem 0 1.5rem;
+  }
+  .verse-ref {
+    display: block;
+    font-style: normal;
+    font-family: var(--font-sans);
+    font-size: 0.72rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-top: 0.5rem;
+  }
+  .ministry-detail-content p {
+    color: var(--text-muted);
+    line-height: 1.75;
+    margin-bottom: 1rem;
+    font-size: 1.02rem;
+  }
+  .ministry-detail-content .subhead {
+    font-family: var(--font-serif);
+    font-size: 1.2rem;
+    color: var(--accent);
+    margin-top: 1.5rem;
+    margin-bottom: 0.75rem;
+    font-weight: 600;
+  }
+  .ministry-detail-content ul { list-style: none; margin: 0.5rem 0 1.5rem; }
+  .ministry-detail-content li {
+    padding: 0.5rem 0 0.5rem 1.75rem;
+    color: var(--text-muted);
+    position: relative;
+    line-height: 1.55;
+  }
+  .ministry-detail-content li::before {
+    content: '✦';
+    position: absolute;
+    left: 0; top: 0.5rem;
+    color: var(--accent);
+  }
+  .ministry-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border), transparent);
+    max-width: 200px;
+    margin: 0 auto;
+  }
+
+  /* Grille des départements */
+  .department-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1rem;
+  }
+  .department-card {
+    padding: 1.25rem 1.25rem;
+    background: var(--card-bg);
+    backdrop-filter: blur(14px);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-sm);
+    transition: transform 0.4s ease, border-color 0.4s ease, background 0.4s ease;
+  }
+  .department-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--border);
+    background: rgba(240, 196, 25, 0.05);
+  }
+  .department-card h4 {
+    font-family: var(--font-serif);
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--accent);
+    margin-bottom: 0.4rem;
+  }
+  .department-card p {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    line-height: 1.55;
+  }
+</style>

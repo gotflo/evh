@@ -1,0 +1,167 @@
+﻿---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+// Source : https://www.vhechurch.ca/who-we-are/global
+const regions = [
+  {
+    name: 'Québec',
+    churches: [
+      { city: 'Montréal',         address: '9852 Rue Verville, Montréal, QC',                  phone: '+1 514-572-7898',  email: 'info@vasesdhonneurmontreal.com', website: 'https://vasesdhonneurmontreal.com' },
+      { city: 'Québec',           address: '3095 Boulevard Wilfrid-Hamel, Québec, QC G1P 4C6', phone: '+1 418-271-4264',  email: null,                              website: 'https://vasesdhonneurquebec.org' },
+      { city: 'Gatineau',         address: '100 Rue Scott, Gatineau, QC',                       phone: '+1 819-525-4236',  email: 'vasesdhonneurgatineau@gmail.com', website: null },
+      { city: 'Longueuil',        address: '441 Sainte-Hélène, suite 1, Longueuil, QC',         phone: '+1 514-561-9449',  email: 'vasesdhonneurlongueuil@gmail.com', website: null },
+      { city: 'Trois-Rivières',   address: '1922 Rue Bellefeuille, Trois-Rivières, QC',         phone: '+1 873-664-4858',  email: 'vasesdhonneur.v3r@gmail.com',      website: null },
+      { city: 'Chicoutimi',       address: '70 Rue Racine Est, Chicoutimi, QC, G7H 1P6',        phone: '+1 438-350-3229',  email: 'contact@evhca.com',                website: null, featured: true },
+      { city: 'Laval',            address: '1003 Boulevard Curé Labelle, Laval, QC',            phone: null,                email: 'vh.laval2@gmail.com',              website: null },
+      { city: 'Saint-Hyacinthe',  address: '1325 Rue Daniel-Johnson Ouest, Saint-Hyacinthe, QC', phone: '+1 438-521-1580', email: 'vho.sthyacinthe@gmail.com',        website: null },
+      { city: 'Sherbrooke',       address: '905 Rue King Ouest, Sherbrooke, QC',                phone: '+1 514-967-8086',  email: null,                              website: null },
+      { city: 'Lévis',            address: '2044A 3ᵉ Rue, Lévis, QC',                           phone: '+1 514-229-3444',  email: 'levis@evhqc.ca',                   website: null },
+    ],
+  },
+  {
+    name: 'Ontario',
+    churches: [
+      { city: 'Ottawa',  address: '4090 Belgreen Dr, unit 4, Ottawa, ON K1G 3N2', phone: '+1 343-262-9390', email: 'maisondhonneur.ottawa@gmail.com', website: null },
+      { city: 'Toronto', address: '5120 Yonge Street, North York, Toronto, ON',   phone: null,               email: 'vasesdhonneurtoronto@gmail.com',  website: null },
+    ],
+  },
+  {
+    name: 'Alberta',
+    churches: [
+      { city: 'Calgary',  address: '3515 26 St NE, Calgary, AB',  phone: '+1 403-803-2321',  email: 'calgary@evhqc.ca',  website: null },
+      { city: 'Edmonton', address: '8830 62 Ave NW, Edmonton, AB', phone: '+1 780-709-8658', email: 'info@vhechurch.ca', website: 'https://vhechurch.ca' },
+    ],
+  },
+  {
+    name: 'Atlantique',
+    churches: [
+      { city: 'Moncton', address: 'Suite 100, 524 St. George Blvd, Moncton, NB', phone: '+1 506-962-6357', email: 'vasesdhonneurmoncton@gmail.com', website: null },
+    ],
+  },
+];
+
+const totalCanada = regions.reduce((acc, r) => acc + r.churches.length, 0);
+
+const mapsUrl = (addr) => `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(addr)}`;
+const telUrl  = (p) => `tel:${p.replace(/[^+\d]/g, '')}`;
+---
+
+<BaseLayout
+  title="Nos églises, Vases d'Honneur"
+  description="Le réseau des assemblées Vases d'Honneur, d'Abidjan à Chicoutimi, en passant par tout le Canada."
+  active="nos-eglises"
+>
+
+  <section class="page-hero">
+    <p class="breadcrumb"><a href="/index.html">Accueil</a> <span>›</span> Nos églises</p>
+    <h1>Une famille, <span class="accent">plusieurs maisons</span></h1>
+    <p class="page-hero-lead">
+      Vases d'Honneur est un mouvement né en Côte d'Ivoire et qui rayonne aujourd'hui
+      sur plusieurs continents. <strong>{totalCanada} assemblées au Canada</strong> portent
+      la même vision : <em>partager l'amour du Christ pour changer le monde.</em>
+    </p>
+  </section>
+
+  <!-- Siège international -->
+  <section class="section">
+    <div class="section-inner">
+      <div class="section-header reveal">
+        <span class="section-subtitle">Maison-mère</span>
+        <h2 class="section-title">Le <span class="accent">siège international</span></h2>
+      </div>
+
+      <div class="church-grid" style="grid-template-columns: 1fr; max-width: 720px; margin: 0 auto;">
+        <article class="church-card featured reveal">
+          <div class="church-card-media" style="aspect-ratio: 16/9;">
+            <span class="church-card-flag hq">Siège international</span>
+            <img src="/img/apotre_mohamed/Pst-MOHAMMED-1.jpg" alt="Apôtre Mohammed Sanogo" loading="lazy" />
+          </div>
+          <div class="church-card-body">
+            <span class="church-card-country">Côte d'Ivoire</span>
+            <h3 class="church-card-city">Abidjan</h3>
+            <p class="church-card-address">
+              Maison-mère du ministère Vases d'Honneur. C'est d'Abidjan
+              que la vision a été portée vers les nations.
+            </p>
+            <div class="church-card-pastor">
+              <img src="/img/apotre_mohamed/Pst-MOHAMMED-1-300x300.jpg" alt="" />
+              <div class="church-card-pastor-info">
+                <span class="role">Apôtre · Président</span>
+                <span class="name">Mohammed Sanogo</span>
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Assemblées du Canada par région -->
+  {regions.map((region) => (
+    <section class="section" style="padding-top: 2rem;">
+      <div class="section-inner">
+        <div class="church-region-header reveal">
+          <h3>{region.name}</h3>
+          <span class="count">{region.churches.length}</span>
+          <span class="line" aria-hidden="true"></span>
+        </div>
+
+        <div class="church-grid">
+          {region.churches.map((c, i) => (
+            <article class={`church-card compact reveal ${c.featured ? 'featured' : ''}`} data-delay={(i % 3) * 100}>
+              <div class="church-card-body">
+                {c.featured && <span class="church-card-country" style="color: var(--accent);">★ Notre maison</span>}
+                {!c.featured && <span class="church-card-country">{region.name === 'Atlantique' ? 'Nouveau-Brunswick' : region.name === 'Ontario' ? 'Ontario' : region.name === 'Alberta' ? 'Alberta' : 'Québec'}</span>}
+                <h3 class="church-card-city">{c.city}</h3>
+
+                <ul class="church-contact-list">
+                  <li>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                    <a href={mapsUrl(c.address)} target="_blank" rel="noopener noreferrer">{c.address}</a>
+                  </li>
+                  {c.phone && (
+                    <li>
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                      <a href={telUrl(c.phone)}>{c.phone}</a>
+                    </li>
+                  )}
+                  {c.email && (
+                    <li>
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                      <a href={`mailto:${c.email}`}>{c.email}</a>
+                    </li>
+                  )}
+                </ul>
+
+                {c.website && (
+                  <div class="church-card-website">
+                    <a href={c.website} target="_blank" rel="noopener noreferrer">
+                      Visiter le site
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M7 7h10v10"/></svg>
+                    </a>
+                  </div>
+                )}
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  ))}
+
+  <section class="section">
+    <div class="section-inner section-narrow" style="text-align: center;">
+      <p class="reveal" style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.7;">
+        D'autres assemblées Vases d'Honneur rayonnent en Europe, en Afrique et
+        ailleurs dans le monde, toutes unies par la même vision portée par l'Apôtre Mohammed Sanogo.
+      </p>
+      <div class="reveal" style="margin-top: 2rem;">
+        <a href="https://www.vhechurch.ca/who-we-are/global" target="_blank" rel="noopener noreferrer" class="btn btn-ghost">
+          Voir le réseau complet
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+</BaseLayout>
