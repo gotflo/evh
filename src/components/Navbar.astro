@@ -1,4 +1,4 @@
-﻿---
+---
 export interface Props {
   active?: 'accueil' | 'histoire' | 'nos-eglises' | 'ministeres' | 'galerie';
 }
@@ -8,7 +8,7 @@ const whoActive = active === 'histoire' || active === 'nos-eglises';
 
 <header class="nav" role="banner">
   <div class="nav-inner">
-    <a href="/index.html" class="nav-brand" aria-label="Vases d'Honneur Chicoutimi, accueil">
+    <a href="/" class="nav-brand" aria-label="Vases d'Honneur Chicoutimi, accueil">
       <img src="/img/logo/cropped-Sans-titre-3-1-300x300.png" alt="Logo Vases d'Honneur" />
       <span class="nav-brand-text">
         <span class="name">Vases d'Honneur</span>
@@ -18,26 +18,26 @@ const whoActive = active === 'histoire' || active === 'nos-eglises';
 
     <nav aria-label="Navigation principale">
       <ul class="nav-links">
-        <li><a href="/index.html" class={active === 'accueil' ? 'active' : ''}>Accueil</a></li>
+        <li><a href="/" class={active === 'accueil' ? 'active' : ''}>Accueil</a></li>
 
         <li class="has-dropdown">
-          <a href="/histoire.html" class={`dropdown-trigger ${whoActive ? 'active' : ''}`} aria-haspopup="true">
+          <a href="/histoire" class={`dropdown-trigger ${whoActive ? 'active' : ''}`} aria-haspopup="true">
             Qui sommes-nous
           </a>
           <ul class="dropdown" role="menu">
-            <li><a href="/histoire.html">Notre histoire</a></li>
-            <li><a href="/nos-eglises.html">Nos églises</a></li>
+            <li><a href="/histoire">Notre histoire</a></li>
+            <li><a href="/nos-eglises">Nos églises</a></li>
           </ul>
         </li>
 
-        <li><a href="/ministeres.html" class={active === 'ministeres' ? 'active' : ''}>Ministères</a></li>
-        <li><a href="/galerie.html" class={active === 'galerie' ? 'active' : ''}>Galerie</a></li>
-        <li><a href="/index.html#contact">Contact</a></li>
+        <li><a href="/ministeres" class={active === 'ministeres' ? 'active' : ''}>Ministères</a></li>
+        <li><a href="/galerie" class={active === 'galerie' ? 'active' : ''}>Galerie</a></li>
+        <li><a href="/#contact">Contact</a></li>
       </ul>
     </nav>
 
     <div class="nav-cta-wrap">
-      <a href="/index.html#horaires" class="nav-cta">Nous rejoindre</a>
+      <a href="/#horaires" class="nav-cta">Nous rejoindre</a>
     </div>
 
     <button class="nav-burger" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="nav-mobile">
@@ -47,11 +47,11 @@ const whoActive = active === 'histoire' || active === 'nos-eglises';
 </header>
 
 <div class="nav-mobile" id="nav-mobile" aria-hidden="true">
-  <a href="/index.html">Accueil</a>
-  <a href="/histoire.html">Notre histoire</a>
-  <a href="/nos-eglises.html">Nos églises</a>
-  <a href="/ministeres.html">Ministères</a>
-  <a href="/galerie.html">Galerie</a>
-  <a href="/index.html#contact">Contact</a>
-  <a href="/index.html#horaires" class="nav-cta">Nous rejoindre</a>
+  <a href="/">Accueil</a>
+  <a href="/histoire">Notre histoire</a>
+  <a href="/nos-eglises">Nos églises</a>
+  <a href="/ministeres">Ministères</a>
+  <a href="/galerie">Galerie</a>
+  <a href="/#contact">Contact</a>
+  <a href="/#horaires" class="nav-cta">Nous rejoindre</a>
 </div>
