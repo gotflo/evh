@@ -1,0 +1,421 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Carte des tribus, Vases d'Honneur Chicoutimi"
+  description="Carte interactive des 9 tribus de Chicoutimi (Zabulon, Dan, Juda, Ruben, Gad, Nephtalie, Levi, Siméon, Aser)."
+  active="tribus"
+  hideFooter={true}
+  bodyClass="page-tribus"
+>
+  <!-- CDN MapLibre, chargé uniquement sur cette page -->
+  <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" slot="head" />
+
+  <section class="tribus-shell" aria-labelledby="tribus-title">
+
+    <!-- Sidebar minimaliste, deux toggles seulement -->
+    <aside class="tribus-sidebar" aria-label="Options de la carte">
+      <header class="tribus-sidebar__header">
+        <p class="tribus-sidebar__eyebrow">Chicoutimi</p>
+        <h1 id="tribus-title">Carte des <span class="accent">tribus</span></h1>
+        <p class="tribus-sidebar__sub">
+          Les 9 tribus de notre territoire, du nom des fils de Jacob.
+        </p>
+      </header>
+
+      <section class="tribus-panel">
+        <h2 class="tribus-panel__title">Fond de carte</h2>
+        <div class="tribus-seg" data-tribu-basemap-seg>
+          <button type="button" class="tribus-seg__btn is-active" data-basemap="osm">Carte</button>
+          <button type="button" class="tribus-seg__btn" data-basemap="sat">Satellite</button>
+        </div>
+      </section>
+
+      <section class="tribus-panel">
+        <h2 class="tribus-panel__title">Affichage</h2>
+        <ul class="tribus-toggles">
+          <li>
+            <label class="tribus-toggle">
+              <input type="checkbox" data-tribu-layer="rues" />
+              <span class="tribus-toggle__box" aria-hidden="true"></span>
+              <span class="tribus-toggle__label">Rues nommées</span>
+            </label>
+            <p class="tribus-toggle__hint">Affiche un point coloré sur chaque rue.</p>
+          </li>
+          <li>
+            <label class="tribus-toggle">
+              <input type="checkbox" data-tribu-layer="rueLabels" />
+              <span class="tribus-toggle__box" aria-hidden="true"></span>
+              <span class="tribus-toggle__label">Noms de rues</span>
+            </label>
+            <p class="tribus-toggle__hint">Visibles à fort zoom uniquement.</p>
+          </li>
+        </ul>
+      </section>
+
+      <footer class="tribus-sidebar__footer">
+        <p class="tribus-legend-title">Les 9 tribus</p>
+        <ul class="tribus-legend">
+          <li><span class="dot" style="background:#e63946"></span>Zabulon</li>
+          <li><span class="dot" style="background:#f4a261"></span>Dan</li>
+          <li><span class="dot" style="background:#e9c46a"></span>Juda et Joseph</li>
+          <li><span class="dot" style="background:#2a9d8f"></span>Ruben</li>
+          <li><span class="dot" style="background:#264653"></span>Gad</li>
+          <li><span class="dot" style="background:#8338ec"></span>Nephtalie</li>
+          <li><span class="dot" style="background:#3a86ff"></span>Levi</li>
+          <li><span class="dot" style="background:#ff006e"></span>Siméon</li>
+          <li><span class="dot" style="background:#06a77d"></span>Aser</li>
+        </ul>
+      </footer>
+    </aside>
+
+    <div id="tribus-map" class="tribus-map" aria-label="Carte interactive"></div>
+  </section>
+
+  <!-- Lib MapLibre puis notre script de la carte -->
+  <script is:inline src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+  <script is:inline src="/scripts/tribus.js" defer></script>
+</BaseLayout>
+
+<style is:global>
+  /* Page sans scroll : on borde le main au viewport sous le navbar */
+  body.page-tribus { overflow: hidden; }
+  body.page-tribus main {
+    height: 100vh;
+    padding-top: 0;
+  }
+
+  .tribus-shell {
+    display: grid;
+    grid-template-columns: 340px 1fr;
+    height: 100vh;
+    width: 100vw;
+    padding-top: 80px; /* compense la navbar fixed */
+  }
+
+  @media (max-width: 880px) {
+    .tribus-shell {
+      grid-template-columns: 1fr;
+      grid-template-rows: auto 1fr;
+    }
+  }
+
+  /* ---------- Sidebar ---------- */
+  .tribus-sidebar {
+    background: linear-gradient(180deg, rgba(6, 48, 44, 0.95), rgba(10, 74, 68, 0.95));
+    backdrop-filter: blur(18px) saturate(140%);
+    -webkit-backdrop-filter: blur(18px) saturate(140%);
+    border-right: 1px solid var(--border-subtle);
+    padding: 1.75rem 1.5rem 1.5rem;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1.75rem;
+  }
+
+  @media (max-width: 880px) {
+    .tribus-sidebar {
+      border-right: none;
+      border-bottom: 1px solid var(--border-subtle);
+      max-height: 45vh;
+    }
+  }
+
+  .tribus-sidebar__eyebrow {
+    font-size: 0.7rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.5rem;
+  }
+
+  .tribus-sidebar__header h1 {
+    font-family: var(--font-serif);
+    font-size: clamp(1.6rem, 3vw, 2rem);
+    font-weight: 600;
+    line-height: 1.15;
+    color: var(--text);
+    margin-bottom: 0.6rem;
+  }
+
+  .tribus-sidebar__header .accent {
+    color: var(--accent);
+    font-style: italic;
+  }
+
+  .tribus-sidebar__sub {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+  }
+
+  .tribus-panel {
+    border-top: 1px solid var(--border-subtle);
+    padding-top: 1.5rem;
+  }
+
+  .tribus-panel__title {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1rem;
+  }
+
+  /* Segmented control (Carte / Satellite) */
+  .tribus-seg {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4px;
+    padding: 4px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border-subtle);
+    border-radius: 12px;
+  }
+  .tribus-seg__btn {
+    appearance: none;
+    border: 0;
+    background: transparent;
+    color: var(--text-muted);
+    font-family: var(--font-sans);
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    padding: 0.55rem 0.75rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s ease, color 0.3s ease;
+  }
+  .tribus-seg__btn:hover { color: var(--text); }
+  .tribus-seg__btn.is-active {
+    background: linear-gradient(135deg, var(--accent), var(--accent-hover));
+    color: var(--bg-end);
+    box-shadow: 0 4px 12px rgba(240, 196, 25, 0.3);
+  }
+
+  .tribus-toggles {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  /* Toggle custom design teal/or */
+  .tribus-toggle {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    cursor: pointer;
+    user-select: none;
+  }
+  .tribus-toggle input { display: none; }
+
+  .tribus-toggle__box {
+    flex-shrink: 0;
+    position: relative;
+    width: 44px;
+    height: 24px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid var(--border-subtle);
+    transition: background 0.3s ease, border-color 0.3s ease;
+  }
+  .tribus-toggle__box::after {
+    content: '';
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--text);
+    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), background 0.3s ease;
+  }
+  .tribus-toggle input:checked + .tribus-toggle__box {
+    background: var(--accent-soft);
+    border-color: var(--border);
+  }
+  .tribus-toggle input:checked + .tribus-toggle__box::after {
+    transform: translateX(20px);
+    background: var(--accent);
+  }
+  .tribus-toggle__label {
+    color: var(--text);
+    font-weight: 500;
+    font-size: 0.95rem;
+  }
+  .tribus-toggle__hint {
+    font-size: 0.78rem;
+    color: var(--text-soft);
+    margin-top: 0.3rem;
+    margin-left: 56px;
+    line-height: 1.45;
+  }
+
+  /* Légende des tribus */
+  .tribus-sidebar__footer {
+    margin-top: auto;
+    border-top: 1px solid var(--border-subtle);
+    padding-top: 1.5rem;
+  }
+  .tribus-legend-title {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.85rem;
+  }
+  .tribus-legend {
+    list-style: none;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem 1rem;
+  }
+  .tribus-legend li {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    font-size: 0.82rem;
+    color: var(--text-muted);
+  }
+  .tribus-legend .dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.15);
+  }
+
+  /* ---------- Carte ---------- */
+  .tribus-map {
+    width: 100%;
+    height: 100%;
+    background: #1a2a28;
+  }
+
+  /* MapLibre overrides — popups + controls */
+  .maplibregl-popup-content {
+    background: rgba(6, 48, 44, 0.95);
+    backdrop-filter: blur(14px);
+    color: var(--text);
+    border: 1px solid var(--border-subtle);
+    border-radius: 12px;
+    padding: 1rem 1.1rem;
+    font-family: var(--font-sans);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+  }
+  .maplibregl-popup-tip { display: none; }
+  .maplibregl-popup-close-button {
+    color: var(--text-muted);
+    font-size: 1.1rem;
+    padding: 4px 8px;
+  }
+  .maplibregl-popup-close-button:hover { color: var(--accent); background: transparent; }
+
+  .popup-title {
+    font-family: var(--font-serif);
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--accent);
+    margin-bottom: 0.4rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .popup-swatch {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 3px;
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.2);
+  }
+  .popup-meta {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+    margin-top: 0.2rem;
+  }
+  .popup-meta strong { color: var(--text); font-weight: 600; }
+
+  .maplibregl-ctrl-group {
+    background: rgba(6, 48, 44, 0.85) !important;
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--border-subtle) !important;
+  }
+  .maplibregl-ctrl-group button {
+    background-color: transparent !important;
+  }
+  .maplibregl-ctrl-group button span {
+    filter: invert(1) brightness(0.95);
+  }
+  .maplibregl-ctrl-group button:hover {
+    background-color: rgba(240, 196, 25, 0.12) !important;
+  }
+  .maplibregl-ctrl-attrib {
+    background: rgba(6, 48, 44, 0.7) !important;
+    color: var(--text-soft);
+    backdrop-filter: blur(6px);
+  }
+  .maplibregl-ctrl-attrib a { color: var(--text-muted); }
+  .maplibregl-ctrl-scale {
+    background: rgba(6, 48, 44, 0.7);
+    color: var(--text-muted);
+    border-color: var(--border-subtle) !important;
+  }
+
+  /* ---------- Marqueurs HTML (landmarks tribus, labels rues) ---------- */
+  .lm-marker {
+    --tribe-color: #f0c419;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.35rem 0.6rem 0.35rem 0.45rem;
+    background: rgba(6, 48, 44, 0.9);
+    backdrop-filter: blur(8px);
+    border: 1.5px solid var(--tribe-color);
+    border-radius: 999px;
+    color: white;
+    font-family: var(--font-sans);
+    font-size: 0.78rem;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    white-space: nowrap;
+  }
+  .lm-marker:hover { transform: scale(1.06); }
+
+  .lm-tribe-star {
+    color: var(--tribe-color);
+    font-size: 0.95rem;
+    line-height: 1;
+  }
+  .lm-tribe-name {
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    font-size: 0.75rem;
+    color: var(--tribe-color);
+  }
+  .lm-tribe-quartier {
+    font-weight: 400;
+    font-size: 0.7rem;
+    color: rgba(255, 255, 255, 0.85);
+    margin-top: 1px;
+  }
+
+  .rue-label {
+    background: rgba(6, 48, 44, 0.85);
+    color: white;
+    font-family: var(--font-sans);
+    font-size: 0.65rem;
+    font-weight: 500;
+    padding: 2px 6px;
+    border-radius: 4px;
+    border: 1px solid var(--border-subtle);
+    white-space: nowrap;
+    pointer-events: none;
+    transform: translateY(4px);
+  }
+</style>

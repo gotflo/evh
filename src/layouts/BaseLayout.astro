@@ -6,13 +6,18 @@ import '../styles/styles.css';
 export interface Props {
   title: string;
   description?: string;
-  active?: 'accueil' | 'histoire' | 'nos-eglises' | 'ministeres' | 'galerie';
+  active?: 'accueil' | 'histoire' | 'nos-eglises' | 'ministeres' | 'galerie' | 'tribus';
+  hideFooter?: boolean;
+  bodyClass?: string;
+  head?: string;
 }
 
 const {
   title,
   description = "Église Vases d'Honneur Chicoutimi, Assemblée Plénitude d'Amour. Partager l'amour du Christ pour changer le monde.",
   active,
+  hideFooter = false,
+  bodyClass = '',
 } = Astro.props;
 ---
 
@@ -35,15 +40,16 @@ const {
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <slot name="head" />
 </head>
-<body>
+<body class={bodyClass}>
   <Navbar active={active} />
 
   <main>
     <slot />
   </main>
 
-  <Footer />
+  {!hideFooter && <Footer />}
 
   <script>
     import '../scripts/main.js';
