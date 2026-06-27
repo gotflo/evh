@@ -2,6 +2,9 @@
 dist/
 .astro/
 
+# originaux haute-resolution des photos de galerie (versions optimisees dans public/)
+gallery-src/
+
 # dependencies
 node_modules/
 

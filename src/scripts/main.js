@@ -159,4 +159,61 @@
     lb.addEventListener('click', (e) => { if (e.target === lb) close(); });
     document.addEventListener('keydown', (e) => { if (e.key === 'Escape') close(); });
   }
+
+  /* --------- Faire un don (maquette) --------- */
+  const donateForm = document.getElementById('donate-form');
+  if (donateForm) {
+    const amountBtns = donateForm.querySelectorAll('.donate-amount');
+    const customInput = donateForm.querySelector('#donate-custom-input');
+    const commentToggle = donateForm.querySelector('#donate-comment-toggle');
+    const commentText = donateForm.querySelector('#donate-comment-text');
+    const designation = donateForm.querySelector('#donate-designation');
+    const notice = donateForm.querySelector('#donate-notice');
+
+    const setActive = (list, target) => list.forEach(b => b.classList.toggle('active', b === target));
+
+    amountBtns.forEach(btn => btn.addEventListener('click', () => {
+      setActive(amountBtns, btn);
+      if (customInput) customInput.value = '';
+    }));
+
+    if (customInput) {
+      customInput.addEventListener('input', () => {
+        if (customInput.value) amountBtns.forEach(b => b.classList.remove('active'));
+      });
+    }
+
+    if (commentToggle && commentText) {
+      commentToggle.addEventListener('change', () => {
+        commentText.hidden = !commentToggle.checked;
+        if (commentToggle.checked) commentText.focus();
+      });
+    }
+
+    donateForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const activeAmount = donateForm.querySelector('.donate-amount.active');
+      const amount = (customInput && customInput.value)
+        ? customInput.value
+        : (activeAmount ? activeAmount.getAttribute('data-amount') : null);
+      if (!amount || Number(amount) < 1) {
+        if (notice) {
+          notice.hidden = false;
+          notice.innerHTML = 'Veuillez choisir ou saisir un montant.';
+        }
+        return;
+      }
+
+      const desig = designation ? designation.value : '';
+      if (notice) {
+        notice.hidden = false;
+        notice.innerHTML =
+          `Merci ! Votre don de <strong>${amount} $ CAD</strong> `
+          + `pour <strong>${desig}</strong> est noté. Le paiement en ligne sera <strong>bientôt disponible</strong>. `
+          + `En attendant, contactez-nous à <a href="mailto:contact@evhca.com">contact@evhca.com</a> `
+          + `ou au <a href="tel:+14383503229">(438) 350-3229</a>.`;
+        notice.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+    });
+  }
 })();
