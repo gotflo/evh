@@ -2266,3 +2266,179 @@ main { position: relative; z-index: 1; }
   outline-offset: 3px;
   border-radius: 4px;
 }
+
+/* ============================================================
+   FAIRE UN DON
+   ============================================================ */
+.verse-ref {
+  display: inline-block;
+  font-style: italic;
+  color: var(--accent);
+  opacity: 0.9;
+}
+
+.donate-wrap {
+  max-width: 540px;
+  margin: 0 auto;
+}
+
+/* ----- Carte formulaire ----- */
+.donate-card {
+  background: rgba(255, 255, 255, 0.97);
+  color: #1c2b29;
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
+  border: 1px solid var(--border-subtle);
+}
+
+.donate-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.1rem 1.5rem;
+  background: linear-gradient(135deg, var(--bg-start), var(--bg-end));
+  color: #fff;
+}
+
+.donate-head-title { font-weight: 600; font-size: 1.05rem; letter-spacing: 0.01em; }
+
+.donate-head-steps { display: inline-flex; align-items: center; gap: 0.5rem; }
+.donate-head-steps .lock { width: 16px; height: 16px; opacity: 0.85; }
+.donate-head-steps .dot {
+  width: 9px; height: 9px; border-radius: 50%;
+  background: rgba(255, 255, 255, 0.35);
+}
+.donate-head-steps .dot.on { background: var(--accent); }
+
+.donate-body { padding: 1.75rem 1.5rem 2rem; }
+
+.donate-intro {
+  text-align: center;
+  font-weight: 600;
+  color: #1c2b29;
+  margin-bottom: 1.5rem;
+}
+
+/* ----- Montants ----- */
+.donate-amounts {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+.donate-amount {
+  padding: 1.25rem 0.5rem;
+  border: 1px solid #d2dad8;
+  border-radius: var(--radius-sm);
+  background: #fff;
+  color: #2a3a37;
+  font: inherit;
+  font-size: 1.15rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.donate-amount:hover { border-color: var(--bg-mid); transform: translateY(-2px); }
+.donate-amount.active {
+  border-color: var(--bg-start);
+  color: var(--bg-start);
+  box-shadow: 0 0 0 2px var(--bg-start) inset;
+  background: rgba(13, 95, 87, 0.05);
+}
+
+/* ----- Montant personnalisé ----- */
+.donate-custom {
+  display: flex;
+  align-items: center;
+  border: 1px solid #d2dad8;
+  border-radius: var(--radius-sm);
+  padding: 0 1rem;
+  margin-bottom: 0.6rem;
+  transition: border-color 0.2s ease;
+}
+.donate-custom:focus-within { border-color: var(--bg-start); }
+.donate-custom-prefix { color: #8a9692; font-weight: 600; margin-right: 0.5rem; }
+.donate-custom input {
+  flex: 1;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  padding: 0.95rem 0;
+  font: inherit;
+  font-size: 1rem;
+  color: #1c2b29;
+}
+.donate-custom input::-webkit-outer-spin-button,
+.donate-custom input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+.donate-custom input[type=number] { -moz-appearance: textfield; }
+
+.donate-currency {
+  font-size: 0.78rem;
+  color: #7a857f;
+  margin-bottom: 1.5rem;
+}
+
+/* ----- Champs ----- */
+.donate-field { margin-bottom: 1.25rem; }
+.donate-field label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--bg-mid);
+  margin-bottom: 0.4rem;
+}
+.donate-field select {
+  width: 100%;
+  padding: 0.85rem 1rem;
+  border: 1px solid #d2dad8;
+  border-radius: var(--radius-sm);
+  background: #fff;
+  font: inherit;
+  font-size: 0.95rem;
+  color: #1c2b29;
+  cursor: pointer;
+}
+.donate-field select:focus { outline: 0; border-color: var(--bg-start); }
+
+/* ----- Commentaire ----- */
+.donate-comment { margin-bottom: 1.5rem; }
+.donate-check {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-size: 0.9rem;
+  color: #46544f;
+  cursor: pointer;
+}
+.donate-check input { width: 16px; height: 16px; accent-color: var(--bg-start); cursor: pointer; }
+.donate-comment textarea {
+  width: 100%;
+  margin-top: 0.75rem;
+  padding: 0.85rem 1rem;
+  border: 1px solid #d2dad8;
+  border-radius: var(--radius-sm);
+  background: #fff;
+  font: inherit;
+  font-size: 0.95rem;
+  color: #1c2b29;
+  resize: vertical;
+}
+.donate-comment textarea:focus { outline: 0; border-color: var(--bg-start); }
+
+/* ----- Bouton ----- */
+.donate-submit { width: 100%; justify-content: center; }
+
+.donate-notice {
+  margin-top: 1rem;
+  padding: 0.9rem 1rem;
+  border-radius: var(--radius-sm);
+  background: rgba(13, 95, 87, 0.08);
+  border: 1px solid rgba(13, 95, 87, 0.2);
+  color: #1c2b29;
+  font-size: 0.88rem;
+  line-height: 1.5;
+}
+.donate-notice strong { color: var(--bg-start); }
+.donate-notice a { color: var(--bg-start); font-weight: 600; }
