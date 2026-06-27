@@ -99,23 +99,27 @@
     }
   }
 
-  /* --------- Lite YouTube --------- */
-  document.querySelectorAll('.lite-youtube[data-yt]').forEach((el) => {
+  /* --------- Lite YouTube (délégation : marche aussi pour les vidéos
+     injectées dynamiquement par youtube-live.js) --------- */
+  const activateLite = (el) => {
     const id = el.getAttribute('data-yt');
-    if (!id) return;
-    const activate = () => {
-      const iframe = document.createElement('iframe');
-      iframe.src = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0`;
-      iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share');
-      iframe.setAttribute('allowfullscreen', '');
-      iframe.setAttribute('title', el.getAttribute('aria-label') || 'Vidéo YouTube');
-      el.innerHTML = '';
-      el.appendChild(iframe);
-    };
-    el.addEventListener('click', activate);
-    el.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); activate(); }
-    });
+    if (!id || el.querySelector('iframe')) return;
+    const iframe = document.createElement('iframe');
+    iframe.src = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0`;
+    iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share');
+    iframe.setAttribute('allowfullscreen', '');
+    iframe.setAttribute('title', el.getAttribute('aria-label') || 'Vidéo YouTube');
+    el.innerHTML = '';
+    el.appendChild(iframe);
+  };
+  document.addEventListener('click', (e) => {
+    const el = e.target.closest('.lite-youtube[data-yt]');
+    if (el) activateLite(el);
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key !== 'Enter' && e.key !== ' ') return;
+    const el = e.target.closest && e.target.closest('.lite-youtube[data-yt]');
+    if (el) { e.preventDefault(); activateLite(el); }
   });
 
   /* --------- Lightbox galerie --------- */
