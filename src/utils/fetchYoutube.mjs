@@ -9,7 +9,7 @@
  * pour ne pas casser le build.
  */
 
-const CHANNEL_ID = 'UCOBrKVhgjiUcSoGyqeo29WA';
+const CHANNEL_ID = 'UCy99K69O9BklRKZ67WbVKZg'; // @vasesdhonneurchicoutimi
 const UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36';
 
 const FALLBACK = [

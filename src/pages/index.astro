@@ -61,7 +61,7 @@ const [featured, ...rest] = videos;
 
       <div class="pastor-block reveal" data-delay="200">
         <div class="pastor-block-photo">
-          <img src="/img/pasteur_abraham/93426682_2874529792628611_8719055525259509760_n-768x768.jpeg" alt="Pasteur Abraham Andebi" />
+          <img src="/img/pasteur_abraham/pastor_abraham.jpg" alt="Pasteur Abraham Andebi" />
         </div>
         <div>
           <p class="pastor-block-role">Pasteur Résident</p>
@@ -136,7 +136,7 @@ const [featured, ...rest] = videos;
             <img src="/img/pasteurs/1575055184_253949_300x300x1-300x300.jpeg" alt="Pasteur Jose Bro" loading="lazy" />
           </div>
           <h3>Past. Jose Bro</h3>
-          <p>Pasteur principal des églises Vases d'Honneur au <strong>Canada et dans les Amériques</strong>.</p>
+          <p>Pasteur Responsable des églises Vases d'Honneur <strong>dans les Amériques</strong>.</p>
         </div>
 
         <div class="leader-card reveal" data-delay="200">
@@ -407,5 +407,15 @@ const [featured, ...rest] = videos;
       </nav>
     </div>
   </section>
+
+  <script>
+    // Rafraîchit « Derniers enseignements » à chaque chargement via l'API YouTube.
+    // Nécessite PUBLIC_YT_API_KEY dans .env (clé restreinte au domaine du site).
+    import { mountYoutubeLive } from '../scripts/youtube-live.js';
+    mountYoutubeLive({
+      apiKey: import.meta.env.PUBLIC_YT_API_KEY,
+      uploadsPlaylistId: 'UUy99K69O9BklRKZ67WbVKZg', // uploads de @vasesdhonneurchicoutimi
+    });
+  </script>
 
 </BaseLayout>
