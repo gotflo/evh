@@ -1,0 +1,50 @@
+---
+// Champ texte du formulaire Eden : libellé, aide facultative et zone d'erreur reliées au champ.
+export interface Props {
+  name: string;
+  label: string;
+  type?: 'text' | 'email' | 'tel' | 'date';
+  hint?: string;
+  autocomplete?: string;
+  inputmode?: 'text' | 'email' | 'tel' | 'numeric';
+  maxlength?: number;
+  placeholder?: string;
+  list?: string;
+  class?: string;
+}
+
+const {
+  name,
+  label,
+  type = 'text',
+  hint,
+  autocomplete = 'off',
+  inputmode,
+  maxlength,
+  placeholder,
+  list,
+  class: className = '',
+} = Astro.props;
+
+// Espace insécable avant ? et : (typographie française), pour qu'ils ne restent pas seuls en fin de ligne.
+const text = label.replace(/ ([?:!;])/g, (_, mark) => String.fromCharCode(0xa0) + mark);
+const describedBy = [hint ? `${name}-hint` : null, `${name}-error`].filter(Boolean).join(' ');
+---
+
+<div class={`eden-field ${className}`} data-field={name}>
+  <label for={name}>{text}</label>
+  {hint && <p class="eden-hint" id={`${name}-hint`}>{hint}</p>}
+  <input
+    id={name}
+    name={name}
+    type={type}
+    required
+    autocomplete={autocomplete}
+    inputmode={inputmode}
+    maxlength={maxlength}
+    placeholder={placeholder}
+    list={list}
+    aria-describedby={describedBy}
+  />
+  <p class="eden-error" id={`${name}-error`}></p>
+</div>

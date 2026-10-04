@@ -1,0 +1,25 @@
+---
+// Question à choix unique (Oui / Non par défaut), présentée en pastilles faciles à toucher.
+export interface Props {
+  name: string;
+  legend: string;
+  options?: [string, string][];
+}
+
+const { name, legend, options = [['oui', 'Oui'], ['non', 'Non']] } = Astro.props;
+// Espace insécable avant ? et : (typographie française).
+const legendText = legend.replace(/ ([?:!;])/g, (_, mark) => String.fromCharCode(0xa0) + mark);
+---
+
+<fieldset class="eden-field eden-choice" data-field={name} aria-describedby={`${name}-error`}>
+  <legend>{legendText}</legend>
+  <div class="eden-pills">
+    {options.map(([value, text]) => (
+      <label class="eden-pill">
+        <input type="radio" name={name} value={value} required />
+        <span>{text}</span>
+      </label>
+    ))}
+  </div>
+  <p class="eden-error" id={`${name}-error`}></p>
+</fieldset>

@@ -1,0 +1,215 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { eden } from '../data/eden.js';
+import '../styles/eden.css';
+
+const { session, affiche } = eden;
+const inscription = eden.demarches.find((d) => d.id === 'inscription');
+
+const etapes = [
+  {
+    titre: 'Remplissez le formulaire',
+    texte: 'Comptez une dizaine de minutes. Gardez sous la main les informations de votre cheminant(e) et une photo de chacun de vous.',
+  },
+  {
+    titre: 'Réglez les frais',
+    texte: `${eden.frais} $ pour vous deux, par virement Interac à ${eden.interacEmail}, avant le début des classes.`,
+  },
+  {
+    titre: 'Envoyez la capture',
+    texte: `Une capture d'écran de votre virement, par WhatsApp au ${eden.whatsapp}.`,
+  },
+  {
+    titre: 'Commencez les cours',
+    texte: `${session.debutCourt}, ${session.lieuPhrase}. L'équipe Eden vous transmet les détails pratiques.`,
+  },
+];
+
+const aPreparer = [
+  'Une adresse courriel que vous consultez souvent',
+  'Vos coordonnées et celles de votre cheminant(e), dont son numéro WhatsApp',
+  'Le pays, la ville et l\'église de votre cheminant(e)',
+  'Une photo récente de vous et une de votre cheminant(e)',
+];
+---
+
+<BaseLayout
+  title="Eden, cours de mariage | Église Vases d'Honneur Chicoutimi"
+  description={`Eden, les cours de préparation au mariage de l'Église Vases d'Honneur. Reprise ${session.debutCourt.toLowerCase()}, en ligne sur Zoom. Inscription en ligne, frais de ${eden.frais} $ par couple.`}
+  active="eden"
+  bodyClass="page-eden"
+  image={affiche.partage}
+>
+
+  <!-- ================= HERO ================= -->
+  <section class="eden-hero">
+    <div class="eden-hero-inner">
+      <div class="eden-hero-text">
+        <p class="breadcrumb"><a href="/index.html">Accueil</a> <span>›</span> Eden</p>
+        <p class="eden-eyebrow">Cheminement au mariage</p>
+        <h1 class="eden-title">Eden</h1>
+        <p class="eden-hero-lead">
+          Les cours de préparation au mariage de l'Église Vases d'Honneur.
+          Un temps pour apprendre, prier et bâtir ensemble un foyer qui tient sur Christ.
+        </p>
+
+        <ul class="eden-facts">
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+            <span><strong>{session.debut}</strong>Début des cours</span>
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="6" width="14" height="12" rx="2"/><path d="m22 8-6 4 6 4V8z"/></svg>
+            <span><strong>{session.lieu}</strong>Depuis chez vous</span>
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><circle cx="16" cy="9" r="3"/><path d="M2.5 20c0-3.6 2.9-6.5 6.5-6.5s6.5 2.9 6.5 6.5M15 13.6c3.1-.4 6.5 1.8 6.5 5.9"/></svg>
+            <span><strong>{eden.frais} $ par couple</strong>Pour les deux cheminants</span>
+          </li>
+        </ul>
+
+        <div class="eden-hero-cta">
+          <a class="btn btn-primary" href={inscription?.lien}>
+            Je m'inscris aux cours
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+          <a class="btn btn-ghost" href="#frais">Frais et paiement</a>
+        </div>
+      </div>
+
+      <figure class="eden-poster">
+        <button type="button" class="eden-poster-btn" data-lightbox data-full={affiche.grande} aria-label="Agrandir l'affiche">
+          <img
+            src={affiche.petite}
+            srcset={`${affiche.petite} 800w, ${affiche.grande} 1600w`}
+            sizes="(max-width: 900px) 92vw, 560px"
+            width={affiche.largeur}
+            height={affiche.hauteur}
+            alt={affiche.alt}
+            fetchpriority="high"
+          />
+        </button>
+        <figcaption>
+          <span class="eden-live-dot" aria-hidden="true"></span>
+          {session.inscriptions} · Infoline <a href={eden.infolineLien}>{eden.infoline}</a>
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ================= EDEN, C'EST QUOI ================= -->
+  <section class="section eden-about">
+    <div class="section-inner eden-about-inner">
+      <div class="eden-about-text reveal">
+        <span class="section-subtitle">Le parcours</span>
+        <h2 class="section-title">Se préparer avant de dire <span class="accent">oui</span></h2>
+        <p>
+          Eden accompagne les couples en cheminement qui veulent se marier selon la Parole de Dieu.
+          Vous suivez les classes à deux, en ligne, avec l'équipe Eden de l'église.
+        </p>
+        <p>
+          Le mariage se prépare bien avant le jour de la cérémonie. Ces cours vous aident à regarder
+          votre relation à la lumière de la Bible, à poser les bonnes questions et à avancer
+          ensemble vers le mariage, en sachant où vous allez et avec qui vous marchez.
+        </p>
+      </div>
+
+      <blockquote class="eden-verse reveal" data-delay="200">
+        <p>
+          « C'est pourquoi l'homme quittera son père et sa mère, et s'attachera à sa femme,
+          et ils deviendront une seule chair. »
+        </p>
+        <cite>Genèse 2:24</cite>
+      </blockquote>
+    </div>
+  </section>
+
+  <!-- ================= DÉMARCHES ================= -->
+  <section class="section eden-actions-section" id="demarches">
+    <div class="section-inner">
+      <div class="section-header reveal">
+        <span class="section-subtitle">Vos démarches</span>
+        <h2 class="section-title">Par où <span class="accent">commencer</span> ?</h2>
+      </div>
+
+      <div class="eden-actions">
+        {eden.demarches.map((d, i) => (
+          <article class={`eden-action reveal ${d.disponible ? 'is-main' : 'is-soon'}`} data-delay={i ? '200' : undefined}>
+            <span class="eden-action-icon" aria-hidden="true">
+              {d.id === 'inscription' ? (
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5V5a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v14.5"/><path d="M4 19.5A2.5 2.5 0 0 0 6.5 22H20"/><path d="M9 8h6M9 12h6"/></svg>
+              ) : (
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="13" r="5.5"/><circle cx="15" cy="13" r="5.5"/></svg>
+              )}
+            </span>
+            {!d.disponible && <span class="eden-soon-badge">Bientôt</span>}
+            <h3>{d.titre}</h3>
+            <p>{d.texte}</p>
+            {d.disponible ? (
+              <a class="btn btn-primary" href={d.lien}>
+                {d.action}
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+              </a>
+            ) : (
+              <span class="btn eden-btn-disabled" aria-disabled="true">{d.action}</span>
+            )}
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= LE CHEMIN ================= -->
+  <section class="section eden-road-section">
+    <div class="section-inner">
+      <div class="section-header reveal">
+        <span class="section-subtitle">Comment ça se passe</span>
+        <h2 class="section-title">Quatre étapes, <span class="accent">à votre rythme</span></h2>
+      </div>
+
+      <ol class="eden-road">
+        {etapes.map((e, i) => (
+          <li class="eden-road-step reveal" data-delay={String(i * 100)}>
+            <span class="eden-road-num" aria-hidden="true">{i + 1}</span>
+            <h3>{e.titre}</h3>
+            <p>{e.texte}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <!-- ================= FRAIS + À PRÉPARER ================= -->
+  <section class="section eden-pay-section" id="frais">
+    <div class="section-inner eden-pay-grid">
+      <div class="eden-pay-card reveal">
+        <p class="eden-card-kicker">Frais d'inscription</p>
+        <p class="eden-price"><span>{eden.frais} $</span> pour les deux cheminants</p>
+        <p>Le montant est dû avant le début des classes. Le paiement se fait par virement Interac :</p>
+        <ol class="eden-pay-steps">
+          <li>Faites un virement du montant exact de {eden.frais} $ à <strong>{eden.interacEmail}</strong>.</li>
+          <li>Envoyez une capture d'écran du virement par WhatsApp au <a href={eden.whatsappLien} target="_blank" rel="noopener"><strong>{eden.whatsapp}</strong></a>.</li>
+        </ol>
+        <p class="eden-note">L'envoi du formulaire ne vaut pas paiement : votre inscription est complète une fois le virement reçu par l'équipe.</p>
+      </div>
+
+      <div class="eden-prep-card reveal" data-delay="200">
+        <p class="eden-card-kicker">Avant de commencer</p>
+        <h3>Ce qu'il vous faut</h3>
+        <ul class="eden-checklist">
+          {aPreparer.map((item) => <li>{item}</li>)}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= APPEL FINAL ================= -->
+  <section class="section eden-final">
+    <div class="section-narrow eden-final-inner reveal">
+      <h2>Prêts à faire le premier pas ?</h2>
+      <p>Les inscriptions sont ouvertes. Une question avant de vous lancer ? Appelez l'infoline au <a href={eden.infolineLien}>{eden.infoline}</a>.</p>
+      <a class="btn btn-primary" href={inscription?.lien}>Je m'inscris aux cours</a>
+    </div>
+  </section>
+
+</BaseLayout>

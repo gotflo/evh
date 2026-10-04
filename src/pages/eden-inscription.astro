@@ -1,0 +1,244 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import EdenField from '../components/eden/EdenField.astro';
+import EdenChoice from '../components/eden/EdenChoice.astro';
+import EdenPhoto from '../components/eden/EdenPhoto.astro';
+import { eden } from '../data/eden.js';
+import { pays } from '../data/pays.js';
+import '../styles/eden.css';
+
+const etapes = [
+  'Vos coordonnées',
+  'Votre parcours',
+  'Votre cheminant(e)',
+  'Quelques questions',
+  'Vos photos',
+  'Confirmation',
+];
+---
+
+<BaseLayout
+  title="Inscription aux cours de mariage | Eden, Vases d'Honneur Chicoutimi"
+  description={`Formulaire d'inscription aux cours de mariage Eden de l'Église Vases d'Honneur. Frais de ${eden.frais} $ pour les deux cheminants, payables par virement Interac avant le début des classes.`}
+  active="eden"
+  bodyClass="page-eden"
+  image={eden.affiche.partage}
+>
+
+  <section class="page-hero eden-page-hero">
+    <p class="breadcrumb">
+      <a href="/index.html">Accueil</a> <span>›</span> <a href="/eden.html">Eden</a> <span>›</span> Inscription
+    </p>
+    <h1>Inscription aux <span class="accent">cours de mariage</span></h1>
+    <p class="page-hero-lead">
+      Prenez d'abord connaissance des frais, puis remplissez le formulaire.
+      Comptez une dizaine de minutes. {eden.session.debutCourt}, {eden.session.lieuPhrase}.
+    </p>
+  </section>
+
+  <section class="section eden-signup">
+    <div class="eden-signup-inner">
+
+      <!-- ================= FRAIS ET PAIEMENT ================= -->
+      <div class="eden-fees" id="frais">
+        <div class="eden-fee-card">
+          <p class="eden-card-kicker">Frais d'inscription</p>
+          <p class="eden-price"><span>{eden.frais} $</span> pour les deux cheminants</p>
+          <p>Les frais d'inscription de l'Eden sont de {eden.frais} $ pour les deux cheminants. Ce montant est dû avant le début des classes.</p>
+          <p class="eden-note">Veuillez vous assurer de bien prendre connaissance de cette information avant de soumettre le formulaire.</p>
+        </div>
+
+        <div class="eden-fee-card">
+          <p class="eden-card-kicker">Option de paiement : virement Interac</p>
+          <ol class="eden-pay-steps">
+            <li>
+              Faites un virement du montant exact de {eden.frais} $ à :
+              <span class="eden-copy-row">
+                <strong>{eden.interacEmail}</strong>
+                <button type="button" class="eden-copy" data-copy={eden.interacEmail} aria-label={`Copier l'adresse ${eden.interacEmail}`}>Copier</button>
+              </span>
+            </li>
+            <li>
+              Faites une capture d'écran de votre virement et envoyez-la par WhatsApp au :
+              <span class="eden-copy-row">
+                <a href={eden.whatsappLien} target="_blank" rel="noopener"><strong>{eden.whatsapp}</strong></a>
+                <button type="button" class="eden-copy" data-copy={eden.whatsapp} aria-label={`Copier le numéro ${eden.whatsapp}`}>Copier</button>
+              </span>
+            </li>
+          </ol>
+          <p class="eden-note">Ce formulaire enregistre votre inscription. Il n'effectue aucun paiement.</p>
+        </div>
+      </div>
+
+      <!-- ================= FORMULAIRE ================= -->
+      <noscript>
+        <p class="eden-noscript">
+          Le formulaire a besoin de JavaScript pour fonctionner. Activez-le dans votre navigateur,
+          ou appelez l'infoline au <a href={eden.infolineLien}>{eden.infoline}</a>.
+        </p>
+      </noscript>
+
+      <form class="eden-form" id="eden-form" action={eden.endpoint} method="post" enctype="multipart/form-data" novalidate>
+        <input type="hidden" name="submission_id" value="" />
+        <div class="eden-trap" aria-hidden="true">
+          <label for="site_web">Ne pas remplir ce champ</label>
+          <input type="text" id="site_web" name="site_web" tabindex="-1" autocomplete="off" />
+        </div>
+
+        <div class="eden-form-head">
+          <p class="eden-step-count">Étape <span data-step-current>1</span> sur {etapes.length}</p>
+          <h2 class="eden-step-title" tabindex="-1" data-step-title>{etapes[0]}</h2>
+          <div class="eden-progress" aria-hidden="true"><span data-progress></span></div>
+        </div>
+
+        <div class="eden-form-body">
+
+          <!-- Étape 1 -->
+          <fieldset class="eden-step is-active" data-step="1" data-title={etapes[0]}>
+            <legend class="sr-only">{etapes[0]}</legend>
+            <EdenField name="repondant_email" label="Adresse courriel" type="email" inputmode="email" autocomplete="email" maxlength={254} placeholder="nom@exemple.com" hint="C'est à cette adresse que vous recevrez la confirmation." />
+            <EdenField name="repondant_nom" label="Nom et prénoms" autocomplete="name" maxlength={120} />
+            <EdenField name="repondant_date_naissance" label="Date de naissance" type="date" autocomplete="bday" />
+            <EdenField name="repondant_nationalite" label="Nationalité" maxlength={80} placeholder="Ex. : canadienne" />
+            <EdenField name="repondant_telephone" label="Téléphone" type="tel" inputmode="tel" autocomplete="tel" maxlength={25} placeholder="418 555-0123" hint="Hors Canada et États-Unis, ajoutez l'indicatif du pays (ex. +225)." />
+            <EdenField name="repondant_profession" label="Profession" autocomplete="organization-title" maxlength={100} />
+          </fieldset>
+
+          <!-- Étape 2 -->
+          <fieldset class="eden-step" data-step="2" data-title={etapes[1]} hidden>
+            <legend class="sr-only">{etapes[1]}</legend>
+            <EdenChoice name="membre_evh" legend="Êtes-vous de l'Église Vases d'Honneur ?" />
+            <div class="eden-conditional" data-show-when="membre_evh=non" hidden>
+              <EdenField name="congregation" label="Quelle est votre congrégation ?" maxlength={150} />
+            </div>
+            <EdenChoice name="baptise_immersion" legend="Êtes-vous baptisé(e) par immersion ?" />
+            <EdenChoice name="relation_precedente" legend="Avez-vous déjà été en cheminement (relation) n'ayant pas abouti ?" />
+            <EdenChoice name="deja_marie" legend="Avez-vous déjà été marié(e) par le passé ?" />
+          </fieldset>
+
+          <!-- Étape 3 -->
+          <fieldset class="eden-step" data-step="3" data-title={etapes[2]} hidden>
+            <legend class="sr-only">{etapes[2]}</legend>
+
+            <fieldset class="eden-field" data-field="duree_valeur" aria-describedby="duree_valeur-error">
+              <legend>Depuis combien de temps êtes-vous en cheminement avec votre cheminant(e) ?</legend>
+              <div class="eden-duration">
+                <label class="sr-only" for="duree_valeur">Durée, en nombre</label>
+                <input id="duree_valeur" name="duree_valeur" type="text" inputmode="numeric" pattern="[0-9]*" required autocomplete="off" placeholder="0" />
+                <div class="eden-pills" role="radiogroup" aria-label="Unité">
+                  <label class="eden-pill"><input type="radio" name="duree_unite" value="mois" required /><span>mois</span></label>
+                  <label class="eden-pill"><input type="radio" name="duree_unite" value="annees" required /><span>années</span></label>
+                </div>
+              </div>
+              <p class="eden-error" id="duree_valeur-error"></p>
+            </fieldset>
+
+            <EdenField name="cheminant_nom" label="Nom et prénoms de votre cheminant(e)" maxlength={120} />
+            <EdenField name="cheminant_date_naissance" label="Date de naissance de votre cheminant(e)" type="date" />
+            <EdenField name="cheminant_nationalite" label="Nationalité de votre cheminant(e)" maxlength={80} />
+            <EdenField name="cheminant_telephone" label="Téléphone WhatsApp de votre cheminant(e)" type="tel" inputmode="tel" maxlength={25} placeholder="+1 418 555-0123" hint="Le numéro utilisé sur WhatsApp, avec l'indicatif du pays s'il n'est pas au Canada ou aux États-Unis." />
+            <EdenField name="cheminant_profession" label="Profession de votre cheminant(e)" maxlength={100} />
+            <div class="eden-row">
+              <EdenField name="cheminant_pays" label="Pays de résidence" maxlength={80} list="eden-pays" />
+              <EdenField name="cheminant_ville" label="Ville de résidence" maxlength={80} />
+            </div>
+            <EdenField name="cheminant_eglise" label="Quelle église fréquente votre cheminant(e) ?" maxlength={150} />
+            <datalist id="eden-pays">
+              {pays.map((p) => <option value={p} />)}
+            </datalist>
+          </fieldset>
+
+          <!-- Étape 4 -->
+          <fieldset class="eden-step" data-step="4" data-title={etapes[3]} hidden>
+            <legend class="sr-only">{etapes[3]}</legend>
+            <p class="eden-step-intro">Répondez en toute sincérité. Vos réponses restent entre vous et l'équipe Eden.</p>
+            <EdenChoice name="bloquants" legend="Pensez-vous avoir des bloquants dans votre cheminement actuel, pour une raison quelconque ?" />
+            <EdenChoice name="pret_classes" legend="Pensez-vous être prêt(e) pour commencer les classes de mariage ?" />
+          </fieldset>
+
+          <!-- Étape 5 -->
+          <fieldset class="eden-step" data-step="5" data-title={etapes[4]} hidden>
+            <legend class="sr-only">{etapes[4]}</legend>
+            <p class="eden-step-intro">Une photo récente où le visage est bien visible. Formats JPG, PNG ou WebP, 10 Mo au maximum par photo.</p>
+            <div class="eden-photos">
+              <EdenPhoto name="photo_repondant" label="Ajoutez votre photo" />
+              <EdenPhoto name="photo_cheminant" label="Ajoutez la photo de votre cheminant(e)" />
+            </div>
+          </fieldset>
+
+          <!-- Étape 6 -->
+          <fieldset class="eden-step" data-step="6" data-title={etapes[5]} hidden>
+            <legend class="sr-only">{etapes[5]}</legend>
+            <div class="eden-recap">
+              <p class="eden-card-kicker">Avant d'envoyer</p>
+              <p>
+                Les frais de <strong>{eden.frais} $</strong> pour vous deux sont à régler avant le début des classes,
+                par virement Interac à <strong>{eden.interacEmail}</strong>. Envoyez ensuite la capture
+                du virement par WhatsApp au <strong>{eden.whatsapp}</strong>.
+              </p>
+            </div>
+
+            <div class="eden-field eden-consent" data-field="confirmation_frais">
+              <label class="eden-check">
+                <input type="checkbox" name="confirmation_frais" value="1" required aria-describedby="confirmation_frais-error" />
+                <span>Je confirme avoir pris connaissance des frais d'inscription de {eden.frais} $, je m'engage à effectuer ce paiement avant le début des classes.</span>
+              </label>
+              <p class="eden-error" id="confirmation_frais-error"></p>
+            </div>
+
+            <p class="eden-privacy">Vos réponses et vos photos sont transmises uniquement à l'équipe Eden de l'église.</p>
+          </fieldset>
+
+          <div class="eden-alert" data-alert role="alert" hidden></div>
+        </div>
+
+        <div class="eden-form-actions">
+          <button type="button" class="eden-btn-back" data-prev hidden>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
+            Retour
+          </button>
+          <button type="button" class="btn btn-primary eden-btn-next" data-next>
+            Continuer
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </button>
+          <button type="submit" class="btn btn-primary eden-btn-submit" data-submit hidden disabled>
+            <span data-submit-text>Finaliser mon inscription</span>
+          </button>
+        </div>
+        <div class="eden-upload" data-upload hidden>
+          <div class="eden-upload-bar"><span data-upload-bar></span></div>
+          <p class="eden-upload-text" data-upload-text aria-live="polite"></p>
+        </div>
+      </form>
+
+      <!-- ================= CONFIRMATION ================= -->
+      <div class="eden-success" id="eden-success" tabindex="-1" hidden>
+        <span class="eden-success-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+        </span>
+        <h2>Votre inscription aux cours de mariage a bien été reçue.</h2>
+        <p class="eden-success-ref" data-success-ref hidden>Votre numéro d'inscription : <strong data-ref></strong></p>
+        <p data-mail-ok>Un courriel de confirmation vient de partir à <strong data-email></strong>. S'il n'arrive pas d'ici quelques minutes, regardez dans vos courriels indésirables.</p>
+        <p data-mail-fail hidden>Le courriel de confirmation n'a pas pu vous être envoyé pour l'instant, mais votre inscription est bien enregistrée. Gardez simplement votre numéro d'inscription.</p>
+
+        <div class="eden-success-pay">
+          <p class="eden-card-kicker">Dernière étape : le paiement</p>
+          <ol class="eden-pay-steps">
+            <li>Faites un virement Interac de <strong>{eden.frais} $</strong> à <strong>{eden.interacEmail}</strong>.</li>
+            <li>Envoyez la capture d'écran par WhatsApp au <a href={eden.whatsappLien} target="_blank" rel="noopener"><strong>{eden.whatsapp}</strong></a>, avec votre numéro d'inscription.</li>
+          </ol>
+          <p class="eden-note">Le paiement doit être effectué avant le début des classes ({eden.session.debut.toLowerCase()}).</p>
+        </div>
+
+        <a class="btn btn-ghost eden-success-back" href="/eden.html">Retour à la page Eden</a>
+      </div>
+
+    </div>
+  </section>
+
+  <script>
+    import { mountEdenForm } from '../scripts/eden-form.js';
+    mountEdenForm();
+  </script>
+
+</BaseLayout>

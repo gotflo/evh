@@ -246,6 +246,13 @@ a { color: inherit; }
   .nav-burger { display: inline-flex; }
 }
 
+/* Juste avant le menu burger : liens resserrés pour que tout tienne sur une ligne. */
+@media (min-width: 1201px) and (max-width: 1340px) {
+  .nav-inner { gap: 0.75rem; }
+  .nav-links { gap: 0.1rem; }
+  .nav-links a { padding: 0.6rem 0.62rem; }
+}
+
 /* Mobile menu drawer */
 .nav-mobile {
   position: fixed;
