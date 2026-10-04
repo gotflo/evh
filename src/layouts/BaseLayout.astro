@@ -6,10 +6,12 @@ import '../styles/styles.css';
 export interface Props {
   title: string;
   description?: string;
-  active?: 'accueil' | 'histoire' | 'nos-eglises' | 'ministeres' | 'galerie' | 'tribus' | 'don';
+  active?: 'accueil' | 'histoire' | 'nos-eglises' | 'ministeres' | 'eden' | 'galerie' | 'tribus' | 'don';
   hideFooter?: boolean;
   bodyClass?: string;
   head?: string;
+  /** Image de partage (Open Graph), chemin depuis la racine du site. */
+  image?: string;
 }
 
 const {
@@ -18,7 +20,11 @@ const {
   active,
   hideFooter = false,
   bodyClass = '',
+  image,
 } = Astro.props;
+
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const ogImage = image ? new URL(image, Astro.site).href : null;
 ---
 
 <!DOCTYPE html>
@@ -33,6 +39,9 @@ const {
   <meta property="og:description" content={description} />
   <meta property="og:type" content="website" />
   <meta property="og:locale" content="fr_CA" />
+  <meta property="og:url" content={canonical.href} />
+  {ogImage && <meta property="og:image" content={ogImage} />}
+  {ogImage && <meta name="twitter:card" content="summary_large_image" />}
 
   <link rel="icon" type="image/png" href="/img/logo/icone-vh--150x150.png" />
   <link rel="apple-touch-icon" href="/img/logo/cropped-Sans-titre-3-1-180x180.png" />

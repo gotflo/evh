@@ -1,6 +1,6 @@
 ﻿---
 export interface Props {
-  active?: 'accueil' | 'histoire' | 'nos-eglises' | 'ministeres' | 'galerie' | 'tribus' | 'don';
+  active?: 'accueil' | 'histoire' | 'nos-eglises' | 'ministeres' | 'eden' | 'galerie' | 'tribus' | 'don';
 }
 const { active } = Astro.props;
 const whoActive = active === 'histoire' || active === 'nos-eglises';
@@ -31,6 +31,7 @@ const whoActive = active === 'histoire' || active === 'nos-eglises';
         </li>
 
         <li><a href="/ministeres.html" class={active === 'ministeres' ? 'active' : ''}>Ministères</a></li>
+        <li><a href="/eden.html" class={active === 'eden' ? 'active' : ''}>Eden</a></li>
         <li><a href="/tribus.html" class={active === 'tribus' ? 'active' : ''}>Carte des tribus</a></li>
         <li><a href="/galerie.html" class={active === 'galerie' ? 'active' : ''}>Galerie</a></li>
         <li><a href="/index.html#horaires">Nous rejoindre</a></li>
@@ -53,6 +54,7 @@ const whoActive = active === 'histoire' || active === 'nos-eglises';
   <a href="/histoire.html">Notre histoire</a>
   <a href="/nos-eglises.html">Nos églises</a>
   <a href="/ministeres.html">Ministères</a>
+  <a href="/eden.html">Eden</a>
   <a href="/tribus.html">Carte des tribus</a>
   <a href="/galerie.html">Galerie</a>
   <a href="/index.html#horaires">Nous rejoindre</a>

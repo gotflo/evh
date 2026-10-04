@@ -1,0 +1,35 @@
+---
+// Envoi d'une photo avec aperçu. Le champ fichier reste accessible au clavier.
+export interface Props {
+  name: string;
+  label: string;
+}
+
+const { name, label } = Astro.props;
+---
+
+<div class="eden-field eden-photo" data-field={name}>
+  <span class="eden-label" id={`${name}-label`}>{label}</span>
+  <div class="eden-photo-frame">
+    <img class="eden-photo-preview" alt="" hidden />
+    <div class="eden-photo-empty" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg>
+      <span>Aucune photo pour l'instant</span>
+    </div>
+  </div>
+  <input
+    class="eden-file-input"
+    type="file"
+    id={name}
+    name={name}
+    accept="image/jpeg,image/png,image/webp"
+    required
+    aria-labelledby={`${name}-label`}
+    aria-describedby={`${name}-error`}
+  />
+  <label class="eden-photo-pick" for={name}>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+    <span data-pick-text>Choisir une photo</span>
+  </label>
+  <p class="eden-error" id={`${name}-error`}></p>
+</div>

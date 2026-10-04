@@ -122,8 +122,8 @@
     if (el) { e.preventDefault(); activateLite(el); }
   });
 
-  /* --------- Lightbox galerie --------- */
-  const galleryItems = document.querySelectorAll('.gallery-item[data-full]');
+  /* --------- Lightbox (galerie, affiche Eden) --------- */
+  const galleryItems = document.querySelectorAll('.gallery-item[data-full], [data-lightbox][data-full]');
   if (galleryItems.length) {
     const lb = document.createElement('div');
     lb.className = 'lightbox';
