@@ -87,6 +87,7 @@ final class InscriptionMails
             html: $html,
             text: $text,
             cc: $this->config->list('EDEN_EMAIL_CC'),
+            bcc: $this->config->list('EDEN_EMAIL_BCC'),
             replyTo: $row['repondant_email'],
             attachments: [
                 ['path' => $this->photos->absolutePath($row['photo_repondant']), 'name' => 'photo-repondant-' . $reference . '.jpg'],

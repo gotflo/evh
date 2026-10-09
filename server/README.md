@@ -62,7 +62,7 @@ Les sous-dossiers sont créés tout seuls au premier envoi. Seul `.env` est à c
 
 Le modèle `.env` est livré en **phase de test** : toutes les inscriptions arrivent
 à une seule adresse, sans copie. Une fois tout validé, remplacer dans
-`evh_private/.env` les lignes `EDEN_EMAIL_TO` et `EDEN_EMAIL_CC` par les vraies
+`evh_private/.env` les lignes `EDEN_EMAIL_TO`, `EDEN_EMAIL_CC` et `EDEN_EMAIL_BCC` (copie cachée) par les vraies
 adresses (déjà écrites en commentaire juste en dessous). Aucune autre modification
 ni aucun nouveau build n'est nécessaire : le `.env` est relu à chaque envoi.
 

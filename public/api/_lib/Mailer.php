@@ -41,6 +41,9 @@ final class Mailer
             foreach ($message->cc as $address) {
                 $mail->addCC($address);
             }
+            foreach ($message->bcc as $address) {
+                $mail->addBCC($address);
+            }
             if ($message->replyTo !== null) {
                 $mail->addReplyTo($message->replyTo);
             }

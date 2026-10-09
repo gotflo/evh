@@ -8,6 +8,7 @@ final class MailMessage
     /**
      * @param list<string> $to
      * @param list<string> $cc
+     * @param list<string> $bcc
      * @param list<array{path: string, name: string}> $attachments
      */
     public function __construct(
@@ -18,6 +19,7 @@ final class MailMessage
         public readonly array $cc = [],
         public readonly ?string $replyTo = null,
         public readonly array $attachments = [],
+        public readonly array $bcc = [],
     ) {
     }
 }
