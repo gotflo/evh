@@ -249,7 +249,14 @@ foreach ($messages as $m) {
 }
 $addresses = static fn (array $list) => array_map(static fn ($a) => $a['Address'], $list);
 check($team !== null && $addresses($team['To']) === ['eden1coach@evhc.com'], 'équipe : À eden1coach@evhc.com');
-check($team !== null && $addresses($team['Cc']) === ['wlogan.wilfried@yahoo.fr', 'vasesdhonneurchicoutimi@gmail.com'], 'équipe : Cc wlogan.wilfried@yahoo.fr et vasesdhonneurchicoutimi@gmail.com');
+check($team !== null && $addresses($team['Cc']) === ['wlogan.wilfried@yahoo.fr'], 'équipe : Cc wlogan.wilfried@yahoo.fr');
+check($team !== null && $addresses($team['Bcc'] ?? []) === ['vasesdhonneurchicoutimi@gmail.com'], 'équipe : Cci vasesdhonneurchicoutimi@gmail.com');
+// Mailpit ajoute lui-même une ligne « Bcc: » avant son « Received: » : seuls les
+// en-têtes qui suivent ont été transmis par PHPMailer.
+$teamRaw = $team ? (string) mailpit('GET', '/api/v1/message/' . $team['ID'] . '/raw') : '';
+$sentHeaders = strstr(substr($teamRaw, (int) strpos($teamRaw, "\nReceived:")), "\r\n\r\n", true) ?: '';
+check($sentHeaders !== '' && !preg_match('/^Bcc:/mi', $sentHeaders) && !str_contains($sentHeaders, 'vasesdhonneurchicoutimi@gmail.com'), 'équipe : la copie cachée est absente des en-têtes transmis');
+check($candidate !== null && ($candidate['Bcc'] ?? []) === [], 'candidat : aucune copie cachée');
 check($team !== null && ($addresses($team['ReplyTo'] ?? [])[0] ?? '') === 'marie.kouassi@exemple.com', 'équipe : réponse dirigée vers le candidat');
 check($team !== null && count($team['Attachments']) === 2, 'équipe : 2 photos en pièces jointes');
 $teamHtml = $team['HTML'] ?? '';
