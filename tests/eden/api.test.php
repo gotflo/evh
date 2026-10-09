@@ -248,7 +248,7 @@ foreach ($messages as $m) {
     }
 }
 $addresses = static fn (array $list) => array_map(static fn ($a) => $a['Address'], $list);
-check($team !== null && $addresses($team['To']) === ['eden1coach@evhc.com'], 'équipe : À eden1coach@evhc.com');
+check($team !== null && $addresses($team['To']) === ['eden1coach@evhca.com'], 'équipe : À eden1coach@evhca.com');
 check($team !== null && $addresses($team['Cc']) === ['wlogan.wilfried@yahoo.fr'], 'équipe : Cc wlogan.wilfried@yahoo.fr');
 check($team !== null && $addresses($team['Bcc'] ?? []) === ['vasesdhonneurchicoutimi@gmail.com'], 'équipe : Cci vasesdhonneurchicoutimi@gmail.com');
 // Mailpit ajoute lui-même une ligne « Bcc: » avant son « Received: » : seuls les
