@@ -71,28 +71,44 @@ final class InscriptionMails
             ],
         ];
 
+        // Les photos ne sont supprimées qu'après un premier envoi réussi à l'équipe :
+        // sans photos, il s'agit d'un renvoi demandé à la main (voir server/README.md).
+        // Il ne part qu'au destinataire principal, les copies ayant déjà tout reçu.
+        $resend = empty($row['photo_repondant']) && empty($row['photo_cheminant']);
+        if ($resend) {
+            $sections['Photos'] = ['Photos' => 'Jointes au premier envoi de cette inscription'];
+        }
+
+        $intro = $resend
+            ? 'Renvoi d\'une inscription déjà reçue sur le site. Les photos étaient jointes au premier envoi.'
+            : 'Une nouvelle inscription vient d\'être reçue sur le site.';
+
         $html = $this->layout(
             'Nouvelle inscription : Cours de mariage Eden',
-            '<p style="margin:0 0 6px;font-size:15px;color:#33413e;">Une nouvelle inscription vient d\'être reçue sur le site.</p>'
+            '<p style="margin:0 0 6px;font-size:15px;color:#33413e;">' . $this->e($intro) . '</p>'
             . '<p style="margin:0 0 24px;font-size:15px;color:#33413e;">Référence : <strong style="color:#0a4a44;">' . $this->e($reference) . '</strong>, reçue le ' . $this->e($this->dateTime($row['cree_le'])) . '.</p>'
             . $this->sectionsHtml($sections)
             . '<p style="margin:24px 0 0;font-size:13px;color:#6b7774;">Pour répondre au candidat, utilisez simplement « Répondre » : la réponse partira vers ' . $this->e($row['repondant_email']) . '.</p>'
         );
 
-        $text = "Nouvelle inscription : Cours de mariage Eden\nRéférence : {$reference}\n\n" . $this->sectionsText($sections);
+        $text = "Nouvelle inscription : Cours de mariage Eden\n{$intro}\nRéférence : {$reference}\n\n" . $this->sectionsText($sections);
+
+        $attachments = [];
+        foreach (['photo_repondant' => 'photo-repondant-', 'photo_cheminant' => 'photo-cheminant-'] as $column => $prefix) {
+            if (!empty($row[$column])) {
+                $attachments[] = ['path' => $this->photos->absolutePath($row[$column]), 'name' => $prefix . $reference . '.jpg'];
+            }
+        }
 
         return new MailMessage(
             to: $this->teamRecipients(),
-            subject: 'Nouvelle inscription : Cours de mariage Eden (' . $reference . ')',
+            subject: ($resend ? 'Renvoi : inscription aux cours de mariage Eden (' : 'Nouvelle inscription : Cours de mariage Eden (') . $reference . ')',
             html: $html,
             text: $text,
-            cc: $this->config->list('EDEN_EMAIL_CC'),
-            bcc: $this->config->list('EDEN_EMAIL_BCC'),
+            cc: $resend ? [] : $this->config->list('EDEN_EMAIL_CC'),
+            bcc: $resend ? [] : $this->config->list('EDEN_EMAIL_BCC'),
             replyTo: $row['repondant_email'],
-            attachments: [
-                ['path' => $this->photos->absolutePath($row['photo_repondant']), 'name' => 'photo-repondant-' . $reference . '.jpg'],
-                ['path' => $this->photos->absolutePath($row['photo_cheminant']), 'name' => 'photo-cheminant-' . $reference . '.jpg'],
-            ],
+            attachments: $attachments,
         );
     }
 

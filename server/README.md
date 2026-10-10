@@ -49,6 +49,7 @@ Les sous-dossiers sont créés tout seuls au premier envoi. Seul `.env` est à c
    son utilisateur, puis phpMyAdmin > la base > Importer > `server/eden-schema.sql`.
 3. **Boîte d'envoi** : hPanel > Emails. Créer (ou choisir) une adresse du domaine,
    par exemple `eden@vasesdhonneurchicoutimi.org`. Elle servira d'expéditeur.
+   Les courriels partent ensuite par Brevo : voir « Envoi des courriels » plus bas.
 4. **Configuration** : avec le Gestionnaire de fichiers, créer le dossier
    `evh_private` à côté de `public_html`, puis y créer le fichier `.env` à partir
    de `server/evh_private.env.example` (base, mot de passe de la boîte d'envoi...).
@@ -57,6 +58,44 @@ Les sous-dossiers sont créés tout seuls au premier envoi. Seul `.env` est à c
 6. **Relance des courriels** (conseillé) : hPanel > Avancé > Tâches Cron, une fois
    par heure :
    `/usr/bin/php /home/<compte>/domains/vasesdhonneurchicoutimi.org/public_html/api/_lib/cli/eden-relancer-courriels.php`
+
+## Envoi des courriels (Brevo)
+
+L'expéditeur est `eden@vasesdhonneurchicoutimi.org`, mais les courriels ne passent
+pas par le relais SMTP d'Hostinger : ce relais est partagé par de nombreux clients
+et certains serveurs le refusent. Le 2026-10-09, celui de `evhca.com` (Titan)
+rejetait les courriels destinés au coach (« Sender IP rejected: spam rate
+exceeded »). Ces refus arrivent après coup dans la boîte `eden@`, sous forme de
+courriels « Undelivered Mail », et le site n'en sait rien.
+
+Les envois passent donc par **Brevo**, un service d'envoi transactionnel :
+
+- dans Brevo, le domaine `vasesdhonneurchicoutimi.org` est authentifié (code Brevo,
+  clés DKIM `brevo1` et `brevo2`, DMARC avec `rua=mailto:rua@dmarc.brevo.com`) et
+  `eden@vasesdhonneurchicoutimi.org` est déclaré comme expéditeur ;
+- dans `evh_private/.env` : `SMTP_HOST=smtp-relay.brevo.com`, `SMTP_PORT=587`,
+  `SMTP_SECURE=tls`, `SMTP_USER` = l'identifiant affiché dans Brevo > SMTP & API,
+  `SMTP_PASSWORD` = une clé SMTP générée au même endroit ;
+- chaque envoi est visible dans Brevo > Transactional > Logs (« Delivered » quand
+  le serveur du destinataire l'a accepté).
+
+L'ancienne configuration Hostinger reste en commentaire dans `evh_private/.env`.
+
+## Renvoyer une inscription à l'équipe
+
+Si un courriel d'inscription n'est pas arrivé au destinataire principal, il suffit
+de le marquer « à renvoyer » dans phpMyAdmin (onglet SQL de la base) :
+
+```sql
+UPDATE eden_inscriptions
+   SET courriel_equipe_statut = 'echec', courriel_tentatives = 0
+ WHERE reference = 'EDEN-2026-0001';
+```
+
+La tâche Cron le renvoie au début de l'heure suivante. Comme les photos ont déjà
+été supprimées après le premier envoi, ce renvoi part **uniquement** à
+`EDEN_EMAIL_TO` (pas de copie), avec un objet commençant par « Renvoi : » et sans
+pièce jointe. Le candidat ne reçoit pas de nouvelle confirmation.
 
 ## Phase de test, puis vraies adresses
 

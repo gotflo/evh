@@ -436,6 +436,19 @@ check($row['courriel_equipe_statut'] === 'envoye' && $row['courriel_candidat_sta
 check($row['photo_repondant'] === null && photoFiles() === [], 'relance : photos supprimées après l\'envoi');
 check(count(mailpit('GET', '/api/v1/messages')['messages'] ?? []) === 2, 'relance : 2 courriels reçus');
 
+scenario('Renvoi manuel au destinataire principal');
+$first = rows()[0];
+$pdo->prepare("UPDATE eden_inscriptions SET courriel_equipe_statut = 'echec', courriel_tentatives = 0 WHERE id = ?")->execute([$first['id']]);
+mailpit('DELETE', '/api/v1/messages');
+shell_exec(escapeshellarg(PHP_BINARY) . ' ' . escapeshellarg(__DIR__ . '/../../public/api/_lib/cli/eden-relancer-courriels.php') . ' 2>&1');
+$sent = mailpit('GET', '/api/v1/messages')['messages'] ?? [];
+$resent = $sent ? mailpit('GET', '/api/v1/message/' . $sent[0]['ID']) : null;
+check(count($sent) === 1, 'un seul courriel renvoyé (pas de nouvelle confirmation au candidat)');
+check($resent !== null && str_starts_with($resent['Subject'], 'Renvoi : '), 'objet commençant par « Renvoi : »');
+check($resent !== null && $addresses($resent['To']) === ['eden1coach@evhca.com'] && $resent['Cc'] === [] && ($resent['Bcc'] ?? []) === [], 'renvoi au destinataire principal uniquement, sans copie');
+check($resent !== null && $resent['Attachments'] === [] && str_contains($resent['Text'], 'premier envoi'), 'sans pièce jointe, avec la mention du premier envoi');
+check(rowBySubmission($first['submission_id'])['courriel_equipe_statut'] === 'envoye', 'statut remis à « envoyé »');
+
 scenario('TEST 11 · Base de données indisponible');
 setEnv(['DB_DSN' => '"mysql:host=127.0.0.1;dbname=base_inexistante;charset=utf8mb4"']);
 $r = post(validInput());
