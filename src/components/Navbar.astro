@@ -8,7 +8,7 @@ const whoActive = active === 'histoire' || active === 'nos-eglises';
 
 <header class="nav" role="banner">
   <div class="nav-inner">
-    <a href="/index.html" class="nav-brand" aria-label="Vases d'Honneur Chicoutimi, accueil">
+    <a href="/" class="nav-brand" aria-label="Vases d'Honneur Chicoutimi, accueil">
       <img src="/img/logo/cropped-Sans-titre-3-1-300x300.png" alt="Logo Vases d'Honneur" />
       <span class="nav-brand-text">
         <span class="name">Vases d'Honneur</span>
@@ -18,7 +18,7 @@ const whoActive = active === 'histoire' || active === 'nos-eglises';
 
     <nav aria-label="Navigation principale">
       <ul class="nav-links">
-        <li><a href="/index.html" class={active === 'accueil' ? 'active' : ''}>Accueil</a></li>
+        <li><a href="/" class={active === 'accueil' ? 'active' : ''}>Accueil</a></li>
 
         <li class="has-dropdown">
           <a href="/histoire.html" class={`dropdown-trigger ${whoActive ? 'active' : ''}`} aria-haspopup="true">
@@ -34,8 +34,8 @@ const whoActive = active === 'histoire' || active === 'nos-eglises';
         <li><a href="/eden.html" class={active === 'eden' ? 'active' : ''}>Eden</a></li>
         <li><a href="/tribus.html" class={active === 'tribus' ? 'active' : ''}>Carte des tribus</a></li>
         <li><a href="/galerie.html" class={active === 'galerie' ? 'active' : ''}>Galerie</a></li>
-        <li><a href="/index.html#horaires">Nous rejoindre</a></li>
-        <li><a href="/index.html#contact">Contact</a></li>
+        <li><a href="/#horaires">Nous rejoindre</a></li>
+        <li><a href="/#contact">Contact</a></li>
       </ul>
     </nav>
 
@@ -50,14 +50,14 @@ const whoActive = active === 'histoire' || active === 'nos-eglises';
 </header>
 
 <div class="nav-mobile" id="nav-mobile" aria-hidden="true">
-  <a href="/index.html">Accueil</a>
+  <a href="/">Accueil</a>
   <a href="/histoire.html">Notre histoire</a>
   <a href="/nos-eglises.html">Nos églises</a>
   <a href="/ministeres.html">Ministères</a>
   <a href="/eden.html">Eden</a>
   <a href="/tribus.html">Carte des tribus</a>
   <a href="/galerie.html">Galerie</a>
-  <a href="/index.html#horaires">Nous rejoindre</a>
-  <a href="/index.html#contact">Contact</a>
+  <a href="/#horaires">Nous rejoindre</a>
+  <a href="/#contact">Contact</a>
   <a href="/faire-un-don.html" class="nav-cta">Faire un don</a>
 </div>

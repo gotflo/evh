@@ -1,6 +1,7 @@
-﻿---
+---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { fetchLatestVideos } from '../utils/fetchYoutube.mjs';
+import { homeJsonLd } from '../data/site.js';
 
 // Build-time fetch, bake les dernières vidéos YouTube dans le HTML statique.
 // Re-exécuté à chaque `npm run build`.
@@ -9,18 +10,19 @@ const [featured, ...rest] = videos;
 ---
 
 <BaseLayout
-  title="Église Vases d'Honneur Chicoutimi, Assemblée Plénitude d'Amour"
-  description="Église Vases d'Honneur Chicoutimi, Assemblée Plénitude d'Amour. Cultes dimanche & mercredi, 70 Rue Racine Est, Chicoutimi."
+  title="Église Vases d'Honneur Chicoutimi | Église chrétienne à Saguenay"
+  description="Église chrétienne au centre-ville de Chicoutimi (Saguenay). Culte le dimanche à 9h30 et soirée de prière le mercredi à 19h30, au 70 Rue Racine Est. Venez comme vous êtes."
   active="accueil"
+  jsonLd={homeJsonLd(Astro.site)}
 >
 
   <!-- ============ HERO ============ -->
   <section class="hero" aria-labelledby="hero-title">
     <div class="hero-bg" aria-hidden="true">
-      <img src="/img/Gallery/385744452_806068568188038_1097952417221916540_n-1536x1023.jpg" alt="" />
-      <img src="/img/Gallery/P1086402-full.webp" alt="" />
-      <img src="/img/Gallery/P1086693-full.webp" alt="" />
-      <img src="/img/Gallery/P1086112-full.webp" alt="" />
+      <img src="/img/Gallery/385744452_806068568188038_1097952417221916540_n-1536x1023.jpg" alt="" width="1536" height="1023" fetchpriority="high" />
+      <img loading="lazy" decoding="async" src="/img/Gallery/P1086402-full.webp" alt="" />
+      <img loading="lazy" decoding="async" src="/img/Gallery/P1086693-full.webp" alt="" />
+      <img loading="lazy" decoding="async" src="/img/Gallery/P1086112-full.webp" alt="" />
     </div>
     <div class="hero-dots" aria-hidden="true"></div>
 
@@ -61,7 +63,7 @@ const [featured, ...rest] = videos;
 
       <div class="pastor-block reveal" data-delay="200">
         <div class="pastor-block-photo">
-          <img src="/img/pasteur_abraham/pastor_abraham.jpg" alt="Pasteur Abraham Andebi" />
+          <img loading="lazy" decoding="async" src="/img/pasteur_abraham/pastor_abraham.jpg" alt="Pasteur Abraham Andebi" />
         </div>
         <div>
           <p class="pastor-block-role">Pasteur Résident</p>
@@ -409,13 +411,10 @@ const [featured, ...rest] = videos;
   </section>
 
   <script>
-    // Rafraîchit « Derniers enseignements » à chaque chargement via l'API YouTube.
-    // Nécessite PUBLIC_YT_API_KEY dans .env (clé restreinte au domaine du site).
+    // Rafraîchit « Derniers enseignements » à chaque chargement (flux de la chaîne
+    // servi par /api/youtube/latest.php, sans clé API).
     import { mountYoutubeLive } from '../scripts/youtube-live.js';
-    mountYoutubeLive({
-      apiKey: import.meta.env.PUBLIC_YT_API_KEY,
-      uploadsPlaylistId: 'UUy99K69O9BklRKZ67WbVKZg', // uploads de @vasesdhonneurchicoutimi
-    });
+    mountYoutubeLive();
   </script>
 
 </BaseLayout>

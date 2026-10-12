@@ -5,12 +5,13 @@ namespace Evh;
 
 final class Http
 {
-    public static function json(int $status, array $payload): never
+    /** @param int $maxAge durée de cache navigateur en secondes (0 = jamais en cache) */
+    public static function json(int $status, array $payload, int $maxAge = 0): never
     {
         http_response_code($status);
         header_remove('X-Powered-By');
         header('Content-Type: application/json; charset=utf-8');
-        header('Cache-Control: no-store');
+        header($maxAge > 0 ? 'Cache-Control: public, max-age=' . $maxAge : 'Cache-Control: no-store');
         header('X-Content-Type-Options: nosniff');
         echo json_encode($payload, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
         exit;

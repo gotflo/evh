@@ -7,11 +7,13 @@ dans `public/api/` (donc copié dans `dist/api/` à chaque `npm run build`).
 ```
 public/api/
   .htaccess                 pas de listing des dossiers, en-têtes de sécurité
-  eden/inscription.php      seule adresse publique : reçoit le formulaire
+  eden/inscription.php      reçoit le formulaire Eden
+  youtube/latest.php        dernières vidéos YouTube (section « Derniers enseignements »)
   _lib/                     code interne, interdit au web (.htaccess)
     bootstrap.php           chargement + emplacement du dossier privé
     Config, Database, Mailer, Logger, RateLimiter, Http, Phone
     Eden/                   validation, photos, enregistrement, courriels
+    Youtube/                lecture du flux RSS de la chaîne, avec cache
     cli/eden-relancer-courriels.php   renvoi des courriels en échec (Cron)
     vendor/PHPMailer/       envoi SMTP (PHPMailer 6.10, licence LGPL)
 server/
@@ -20,7 +22,7 @@ server/
 ```
 
 Prérequis serveur : PHP 8.1 ou plus, extensions `pdo_mysql`, `gd` (avec WebP),
-`fileinfo`, `mbstring`, `openssl`. Elles sont actives par défaut chez Hostinger.
+`fileinfo`, `mbstring`, `openssl`, `dom`, `curl`. Elles sont actives par défaut chez Hostinger.
 
 ## Le dossier privé `evh_private`
 
@@ -36,6 +38,7 @@ domains/vasesdhonneurchicoutimi.org/
     eden/photos/        photos en attente d'envoi (vidé automatiquement)
     logs/               journal mensuel, sans données personnelles
     cache/ratelimit/    compteurs anti-abus
+    cache/youtube-latest.json   dernières vidéos YouTube (10 minutes)
 ```
 
 Les sous-dossiers sont créés tout seuls au premier envoi. Seul `.env` est à créer.
@@ -128,6 +131,22 @@ Il n'y a pas d'écran d'administration : les inscriptions arrivent par courriel 
 restent consultables dans phpMyAdmin (table `eden_inscriptions`, colonnes en
 français). La colonne `paiement_statut` vaut `en_attente` : l'équipe peut la
 passer à `paye` à la main après réception du virement.
+
+## Vidéos YouTube (« Derniers enseignements »)
+
+La section de l'accueil se met à jour toute seule, sans nouveau build :
+
+1. au build, `src/utils/fetchYoutube.mjs` écrit les vidéos du moment dans le HTML
+   (repli, et contenu lu par Google) ;
+2. à chaque visite, le navigateur appelle `/api/youtube/latest.php`, qui lit le
+   flux RSS public de la chaîne (aucune clé API, aucun quota) et le garde
+   10 minutes dans `evh_private/cache/youtube-latest.json`. Une vidéo publiée
+   apparaît donc sur le site au plus 15 minutes plus tard environ.
+
+Si YouTube ne répond pas, le script renvoie la dernière liste connue ; s'il n'en
+a aucune, la page garde simplement les vidéos écrites au build. Les Shorts sont
+écartés. Vérification : `https://<domaine>/api/youtube/latest.php` doit afficher
+du JSON avec une liste `videos`.
 
 ## Tests
 

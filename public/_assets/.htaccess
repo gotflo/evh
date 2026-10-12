@@ -1,0 +1,5 @@
+# Fichiers générés par le build : leur nom change à chaque modification,
+# le navigateur peut donc les garder un an sans risque.
+<IfModule mod_headers.c>
+  Header set Cache-Control "public, max-age=31536000, immutable"
+</IfModule>

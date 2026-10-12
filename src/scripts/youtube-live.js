@@ -1,12 +1,13 @@
 /**
  * Rafraîchit la section « Derniers enseignements » côté navigateur, à chaque
- * chargement de la page, en interrogeant l'API YouTube Data v3.
+ * chargement de la page d'accueil.
+ *
+ * Les vidéos viennent de /api/youtube/latest.php : ce petit script PHP lit le
+ * flux RSS public de la chaîne (aucune clé API) et le garde en cache 10 minutes.
  *
  * Le HTML statique (baké au build par fetchYoutube.mjs) reste en place comme
- * contenu de repli : si l'API échoue ou si la clé manque, rien ne change.
- *
- * Quota : 1 appel playlistItems (1 unité) + 1 appel videos (1 unité) par visite.
- * La clé doit être restreinte au domaine du site (referrer HTTP) dans Google Cloud.
+ * contenu de repli : si l'appel échoue (en local avec `astro dev`, par exemple),
+ * rien ne change.
  */
 
 const PLAY_SVG = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>';
@@ -84,43 +85,25 @@ function buildInner(videos) {
   return featuredHtml + listHtml;
 }
 
-async function fetchVideos(apiKey, playlistId, limit) {
-  const plRes = await fetch(
-    `https://www.googleapis.com/youtube/v3/playlistItems?part=contentDetails&maxResults=${limit}&playlistId=${playlistId}&key=${apiKey}`
-  );
-  if (!plRes.ok) throw new Error(`playlistItems HTTP ${plRes.status}`);
-  const pl = await plRes.json();
-  const ids = (pl.items || []).map((it) => it.contentDetails?.videoId).filter(Boolean);
-  if (!ids.length) throw new Error('aucune vidéo');
+async function fetchVideos(endpoint, limit) {
+  const res = await fetch(endpoint, { headers: { Accept: 'application/json' } });
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  const data = await res.json();
 
-  const vRes = await fetch(
-    `https://www.googleapis.com/youtube/v3/videos?part=snippet,statistics&id=${ids.join(',')}&key=${apiKey}`
-  );
-  if (!vRes.ok) throw new Error(`videos HTTP ${vRes.status}`);
-  const vd = await vRes.json();
-  const byId = new Map((vd.items || []).map((it) => [it.id, it]));
-
-  // Conserver l'ordre du playlist (le plus récent en premier)
-  return ids.map((id) => byId.get(id)).filter(Boolean).map((it) => {
-    const sn = it.snippet || {};
-    const th = sn.thumbnails || {};
-    const thumb = (th.high || th.medium || th.default || {}).url
-      || `https://i.ytimg.com/vi/${it.id}/hqdefault.jpg`;
-    return {
-      id: it.id,
-      title: (sn.title || '').replace(/\s+/g, ' ').trim(),
-      thumbnail: thumb,
-      views: frViews(it.statistics?.viewCount),
-      published: frRelative(sn.publishedAt),
-    };
-  });
+  return (Array.isArray(data.videos) ? data.videos : []).slice(0, limit).map((v) => ({
+    id: v.id,
+    title: v.title,
+    thumbnail: `https://i.ytimg.com/vi/${encodeURIComponent(v.id)}/hqdefault.jpg`,
+    views: frViews(v.views),
+    published: frRelative(v.published),
+  }));
 }
 
-export async function mountYoutubeLive({ apiKey, uploadsPlaylistId, limit = 5 } = {}) {
+export async function mountYoutubeLive({ endpoint = '/api/youtube/latest.php', limit = 5 } = {}) {
   const wall = document.querySelector('.watch-wall');
-  if (!wall || !apiKey || !uploadsPlaylistId) return; // pas de clé → on garde le repli baké
+  if (!wall) return;
   try {
-    const videos = await fetchVideos(apiKey, uploadsPlaylistId, limit);
+    const videos = await fetchVideos(endpoint, limit);
     if (videos.length) wall.innerHTML = buildInner(videos);
   } catch (err) {
     console.warn('[youtube-live] rafraîchissement ignoré :', err.message);

@@ -1,6 +1,7 @@
-﻿---
+---
 import Navbar from '../components/Navbar.astro';
 import Footer from '../components/Footer.astro';
+import { site } from '../data/site.js';
 import '../styles/styles.css';
 
 export interface Props {
@@ -12,6 +13,12 @@ export interface Props {
   head?: string;
   /** Image de partage (Open Graph), chemin depuis la racine du site. */
   image?: string;
+  /** Texte alternatif de l'image de partage. */
+  imageAlt?: string;
+  /** Exclut la page des moteurs de recherche (page d'erreur, confirmation...). */
+  noindex?: boolean;
+  /** Données structurées schema.org (un objet ou une liste). */
+  jsonLd?: object | object[];
 }
 
 const {
@@ -21,27 +28,46 @@ const {
   hideFooter = false,
   bodyClass = '',
   image,
+  imageAlt,
+  noindex = false,
+  jsonLd,
 } = Astro.props;
 
-const canonical = new URL(Astro.url.pathname, Astro.site);
-const ogImage = image ? new URL(image, Astro.site).href : null;
+// Adresse canonique : toujours le domaine principal, sans « www », et « / »
+// plutôt que « /index.html » pour l'accueil.
+const canonical = new URL(Astro.url.pathname.replace(/(^|\/)index(\.html)?$/, '$1'), Astro.site);
+const ogImage = new URL(image ?? site.image, Astro.site).href;
+const ogImageAlt = imageAlt ?? (image ? title : "Assemblée réunie pour le culte à l'Église Vases d'Honneur Chicoutimi");
+const structuredData = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
 ---
 
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr-CA">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>{title}</title>
   <meta name="description" content={description} />
+  <link rel="canonical" href={canonical.href} />
+  <meta name="robots" content={noindex ? 'noindex, follow' : 'index, follow, max-image-preview:large'} />
   <meta name="theme-color" content="#0a4a44" />
+  <meta property="og:site_name" content={site.name} />
   <meta property="og:title" content={title} />
   <meta property="og:description" content={description} />
   <meta property="og:type" content="website" />
   <meta property="og:locale" content="fr_CA" />
   <meta property="og:url" content={canonical.href} />
-  {ogImage && <meta property="og:image" content={ogImage} />}
-  {ogImage && <meta name="twitter:card" content="summary_large_image" />}
+  <meta property="og:image" content={ogImage} />
+  <meta property="og:image:alt" content={ogImageAlt} />
+  {!image && <meta property="og:image:width" content={String(site.imageWidth)} />}
+  {!image && <meta property="og:image:height" content={String(site.imageHeight)} />}
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content={title} />
+  <meta name="twitter:description" content={description} />
+  <meta name="twitter:image" content={ogImage} />
+  {structuredData.map((data) => (
+    <script type="application/ld+json" set:html={JSON.stringify(data)} />
+  ))}
 
   <link rel="icon" type="image/png" href="/img/logo/icone-vh--150x150.png" />
   <link rel="apple-touch-icon" href="/img/logo/cropped-Sans-titre-3-1-180x180.png" />
