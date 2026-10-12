@@ -1,7 +1,6 @@
 # Réglages du serveur Apache/LiteSpeed (Hostinger) pour le référencement et la vitesse.
 
 Options -Indexes
-DirectoryIndex index.html index.php
 
 # Page d'erreur du site plutôt que celle de l'hébergeur.
 ErrorDocument 404 /404.html
